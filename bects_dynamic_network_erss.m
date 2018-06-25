@@ -1,10 +1,9 @@
 % DYANMIC NETWORK SCRIPT EXAMPLE
-clear all
-
 % 0. SET PARAMETERS
 model.patient_name = 'pBECTS007_sleep05';
-OUTFIGPATH = strcat('~/Desktop/bects_data/plots/',patient);
-OUTVIDPATH = strcat('~/Desktop/',patient,'.avi');
+OUTFIGPATH = strcat('~/Desktop/bects_data/plots/',model.patient_name);
+OUTVIDPATH = strcat('~/Desktop/',model.patient_name,'.avi');
+OUTDATAPATH = strcat('~/Desktop/',model.patient_name,'.mat');
 
 patient_coordinates.LDL = left_desikan_label;
 patient_coordinates.RDL = right_desikan_label;
@@ -24,13 +23,20 @@ model.window_size = 1;   % in seconds
 model.q=0.05;
 model.nsurrogates = 10000;
 
-% 3. INFER NETWORK
-[ model ] = infer_network_correlation_bootstrap( model);
+% 3a. INFER NETWORK
+if ~exist('model.C')
+    [ model ] = infer_network_correlation_bootstrap( model);
+end
+
+% 3b. SAVE DATA
+model.data = NaN;  % clear data
+save(OUTDATAPATH,'model')
 
 % 4a. ANALYZE NETWORK - density
-compute_network_densities(A,patient_coordinates)
+compute_network_densities(model.C,patient_coordinates)
+saveas(figure(1),[OUTFIGPATH '_density.fig'])
 
 % 4b. ANALYZE NETWORK - degree centrality
-compute_network_centralities(A,patient_coordinates)
-
-
+compute_network_centralities(model.C,patient_coordinates)
+saveas(figure(2),[OUTFIGPATH '_centrality.fig'])
+close all

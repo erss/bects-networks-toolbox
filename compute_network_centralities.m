@@ -12,8 +12,8 @@ Aright(RN,RN,:) = nan;
 Aleft(LN,:,:) = [];
 Aright(RN,:,:) = [];
 
-% Aleft(:,163:end,:) = [];
-% Aright(:,1:162,:) = [];
+Aleft(:,163:end,:) = [];
+Aright(:,1:162,:) = [];
 
 %xyz =patient_coordinates.coords(3:end,:);
 

@@ -2,32 +2,28 @@ function [ LN,RN ] = subnetworks( patient_coordinates)
 %UNTITLED9 Summary of this function goes here
 %   Detailed explanation goes here
 
+%% Choose subnetworks based on name
 % LDL = patient_coordinates.LDL;
 % RDL = patient_coordinates.RDL;
 % indices_precentral_left   = find(strcmp(LDL,'precentral'));
 % indices_precentral_right  = find(strcmp(RDL,'precentral')) + 162;
 % indices_postcentral_left  = find(strcmp(LDL,'postcentral'));
 % indices_postcentral_right = find(strcmp(RDL,'postcentral')) + 162;
-% Left hemisphere
+
+
 % LN = [indices_precentral_left;indices_postcentral_left];
-% 
-% % right hemisphere
 % RN = [indices_precentral_right;indices_postcentral_right];
 
 
-
+%% Choose subnetworks based on coordinates
 xyz= patient_coordinates.coords;
 for i = 1:length(patient_coordinates.left_focus)
     LN(i) = find(xyz(2,:)==patient_coordinates.left_focus(i));
 end
 
 for i = 1:length(patient_coordinates.right_focus)
-        RN(i) = find(xyz(2,:)==patient_coordinates.right_focus(i));
+    RN(i) = find(xyz(2,:)==patient_coordinates.right_focus(i));
 end
-
-%%% Determine sourcespace coordinates
-
-
 
 end
 
