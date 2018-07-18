@@ -1,4 +1,4 @@
-function [ LN,RN ] = subnetworks( patient_coordinates)
+function [ LN,RN ] = subnetworks( patient_coordinates,str)
 %UNTITLED9 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -26,8 +26,8 @@ for i = 1:size(LDL,1)
         RDL{i,1} = '';
     end
 end
-LN  = find(contains(LDL,'temporal'));
-RN  = find(contains(RDL,'temporal')) + 162;
+LN  = find(contains(LDL,str));
+RN  = find(contains(RDL,str)) + 162;
 
 
 %% Choose subnetworks based on coordinates

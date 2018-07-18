@@ -14,7 +14,7 @@ model.data = [data_left;data_right];
 % % 2. LOAD MODEL PARAMETERS
 model.sampling_frequency = 2035;
 %model.t = 1:1/model.sampling_frequency:size(model.data,2)/model.sampling_frequency;
-model.window_step =1;% 0.5; % in seconds
+model.window_step = 0.5;% 0.5; % in seconds
 model.window_size = 1;   % in seconds
 model.q=0.05;
 model.nsurrogates = 100;
@@ -22,7 +22,7 @@ model.t=time;
 % % 3. Remove artifacts
 model = remove_artifacts(model,patient_coordinates);
 % 3a. INFER NETWORK
- [ model ] = infer_network_correlation_bootstrap( model);
+% [ model ] = infer_network_correlation_bootstrap( model);
 
 
 % 3b. SAVE DATA
