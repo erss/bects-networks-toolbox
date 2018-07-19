@@ -17,7 +17,7 @@ model.sampling_frequency = 2035;
 model.window_step = 0.5;% 0.5; % in seconds
 model.window_size = 1;   % in seconds
 model.q=0.05;
-model.nsurrogates = 100;
+model.nsurrogates = 10000;
 model.t=time;
 % % 3. Remove artifacts
 model = remove_artifacts(model,patient_coordinates);
