@@ -20,9 +20,9 @@ model.q=0.05;
 model.nsurrogates = 10000;
 model.t=time;
 % % 3. Remove artifacts
-model = remove_artifacts(model,patient_coordinates);
+model = remove_artifacts_all_lobes(model,patient_coordinates);
 % 3a. INFER NETWORK
-% [ model ] = infer_network_correlation_bootstrap( model);
+ [ model ] = infer_network_correlation_bootstrap( model);
 
 
 % 3b. SAVE DATA
