@@ -14,5 +14,7 @@ for i = 1:length(patient_coordinates.right_focus)
     RN(i) = find(xyz(2,:)==patient_coordinates.right_focus(i));
 end
 
+LN = sort(LN);
+RN = sort(RN);
 end
 

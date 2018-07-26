@@ -15,5 +15,8 @@ LN  = find(contains(LDL,str));
 RN  = find(contains(RDL,str)) + 162;
 
 
+LN = sort(LN);
+RN = sort(RN);
+
 end
 

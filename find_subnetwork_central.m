@@ -14,6 +14,7 @@ indices_postcentral_right = find(strcmp(RDL,'postcentral')) + 162;
 LN = [indices_precentral_left;indices_postcentral_left];
 RN = [indices_precentral_right;indices_postcentral_right];
 
-
+LN = sort(LN);
+RN = sort(RN);
 end
 
