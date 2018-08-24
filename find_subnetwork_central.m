@@ -15,6 +15,8 @@ LN = [indices_precentral_left;indices_postcentral_left];
 RN = [indices_precentral_right;indices_postcentral_right];
 
 LN = sort(LN);
+LN= reshape(LN,[length(LN) 1]);
 RN = sort(RN);
+RN= reshape(RN,[length(RN) 1]);
 end
 

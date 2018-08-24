@@ -1,7 +1,6 @@
 % DYANMIC NETWORK SCRIPT EXAMPLE
 % 0. SET PARAMETERS
 
-model.patient_name = 'pBECTS020_rest06';
 %OUTFIGPATH = strcat('~/Desktop/bects_data/plots/',model.patient_name);
 %OUTVIDPATH = strcat('~/Desktop/',model.patient_name,'.avi');
 %OUTDATAPATH = strcat('~/Desktop/',model.patient_name,'.mat');

@@ -6,7 +6,7 @@ function network_movie( A, patient_coordinates)
 %OUTVIDPATH = strcat('~/Desktop/',patient,'.avi');
 OUTVIDPATH = '/Users/erss/Documents/MATLAB/BECTS-networks';
 
-[ LN,RN] = subnetworks( patient_coordinates);
+[ LN,RN] = find_subnetwork_coords( patient_coordinates);
 Aleft = A(LN,LN,:);
 Aright = A(RN,RN,:);
 xyz =patient_coordinates.coords(3:end,:);
