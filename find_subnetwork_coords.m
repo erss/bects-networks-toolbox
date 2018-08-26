@@ -17,6 +17,8 @@ for i = 1:length(patient_coordinates.right_focus)
 end
 
 LN = sort(LN);
+LN= reshape(LN,[length(LN) 1]);
 RN = sort(RN);
+RN= reshape(RN,[length(RN) 1]);
 end
 

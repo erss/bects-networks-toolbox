@@ -30,24 +30,33 @@ end
 [LN,RN] = find_subnetwork_coords( patient_coordinates);
 %[LN,RN] = find_subnetwork_central( patient_coordinates);
 
-GN = setdiff(1:n,[LN,RN]);
-
+GN = setdiff(1:n,[LN;RN]);
+GNl = setdiff(1:162,LN);
+GNr = setdiff(163:324,RN);
 % Define subnetworks of interest
 
 if strcmp(patient_coordinates.status,'active-left')
-    network_focus_to_focus= A(LN,LN,:);
+    Al= A(LN,LN,:);
+    Ar=nan(size(Al));
+    Alg = A(LN,GNl,:);   % focus to rest of network ex-
+                                             % cluding focus
+    Arg = Ar;
 elseif strcmp(patient_coordinates.status,'active-right')
-    network_focus_to_focus= A(RN,RN,:);
+    Ar= A(RN,RN,:);
+    Al=nan(size(Ar));
+    Arg = A(RN,GNr,:);   % focus to rest of network ex-
+                                             % cluding focus
+    Alg =Al;                                         
 elseif strcmp(patient_coordinates.status, 'healthy')
-    Aleft = A(LN,LN,:);
-    Aright = A(RN,RN,:);
-    diagNaN1 = NaN(size(A(LN,RN,:)));
-    diagNaN2 = NaN(size(A(RN,LN,:)));
-    network_focus_to_focus = [Aleft diagNaN1; diagNaN2 Aright];
+    Al = A(LN,LN,:);
+    Ar = A(RN,RN,:);
+   
+    Alg = A(LN,GNl,:);
+    Arg = A(RN,GNr,:);
 end
 
 network_left_to_right = A(LN,RN,:);          % left focus to right focus
-network_focus_to_global = A([LN RN],GN,:);   % focus to rest of network ex-
+%network_focus_to_global = A([LN RN],GN,:);   % focus to rest of network ex-
                                              % cluding focus
                                              
 % Initialize corresponding functional connectivitiy vectors                                            
@@ -60,15 +69,17 @@ for i = 1:size(A,3)
     
     % Grab each network at each point in time
     nG   = A(:,:,i);
-    nF   = network_focus_to_focus(:,:,i);    
+    nFl   = Al(:,:,i); 
+    nFr   = Ar(:,:,i); 
     nA   = network_left_to_right(:,:,i);
-    nFG = network_focus_to_global(:,:,i);
+    nFGl  = Alg(:,:,i);
+    nFGr = Arg(:,:,i);
     
     % Compute and store density at that instant
     fc_global(i) = nanmean(nG(:));
-    fc_focus_to_focus(i)= nanmean(nF(:));
+    fc_focus_to_focus(i)= nanmean([nanmean(nFl(:)) nanmean(nFr(:))]);
     fc_left_to_right(i) = nanmean(nA(:));
-    fc_focus_to_global(i) = nanmean(nFG(:));
+    fc_focus_to_global(i) = nanmean([nanmean(nFGl(:)) nanmean(nFGr(:))]);
 end
 
 % Store global densities over time
@@ -88,8 +99,6 @@ elseif strcmp(specs.normalize,'false' )
 else
     dynamic_strengths= NaN;
 end
-
-
 
 end
 

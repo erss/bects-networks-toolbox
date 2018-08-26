@@ -16,7 +16,9 @@ RN  = find(contains(RDL,str)) + 162;
 
 
 LN = sort(LN);
+LN= reshape(LN,[length(LN) 1]);
 RN = sort(RN);
+RN= reshape(RN,[length(RN) 1]);
 
 end
 

@@ -16,7 +16,10 @@ if strcmp(hand,'left')
     PostN= find(strcmp(RDL,'postcentral')) + 162;
 end
 
+
 PreN = sort(PreN);
+PreN= reshape(PreN,[length(PreN) 1]);
 PostN = sort(PostN);
+PostN= reshape(PostN,[length(PostN) 1]);
 end
 

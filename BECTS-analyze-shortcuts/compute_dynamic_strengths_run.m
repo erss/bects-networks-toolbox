@@ -1,6 +1,6 @@
 %%% compute_dynamic_densities scripts + plots
 specs.normalize = 'true'; % true or false
-specs.A = 'raw'; % raw or binary
+specs.A = 'binary'; % raw or binary
 %%
 dyn6    = compute_dynamic_strength(model006,patient_coordinates_006,specs);
 dyn7    = compute_dynamic_strength(model007,patient_coordinates_007,specs);
