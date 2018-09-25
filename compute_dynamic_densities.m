@@ -4,14 +4,14 @@ function [ r, densities]=compute_dynamic_densities(model,patient_coordinates,spe
 
 % Load t indexed network
 if strcmp(specs.A,'raw' )
-    A=model.mx0;
+    A=abs(model.kC);
     for k=1:size(A,3)
         Atemp = A(:,:,k);
         Atemp = Atemp + transpose(Atemp);
         A(:,:,k) = Atemp;
     end
 elseif strcmp(specs.A,'binary' )
-    A=model.C;
+    A=model.net_coh;
 else
     A= NaN;
 end
@@ -83,8 +83,12 @@ ylim([0 1])
 box off
 
 % compute + plot mean connectivity
+v1=fc_left_focus-nanmean(fc_left_focus);
+v2=fc_right_focus-nanmean(fc_right_focus);
+v1(isnan(v1))=[];
+v2(isnan(v2))=[];
 
-[r]= xcorr(fc_left_focus-nanmean(fc_left_focus),fc_right_focus-nanmean(fc_right_focus),0,'coeff');
+[r]= xcorr(v1,v2,0,'coeff');
 title(num2str(r))
 [mn, bds ]=normal_stats(fc_left_focus);
 
@@ -101,6 +105,10 @@ plot([taxis(1) taxis(end)],[bds(2) bds(2)],'--g')
 plot([taxis(1) taxis(end)],[mn2 mn2],'-k')
 plot([taxis(1) taxis(end)],[bds(1) bds(1)],'--k')
 plot([taxis(1) taxis(end)],[bds(2) bds(2)],'--k')
+[mn2, bds ]=normal_stats(fc_left_to_right);
+plot([taxis(1) taxis(end)],[mn2 mn2],'-c')
+plot([taxis(1) taxis(end)],[bds(1) bds(1)],'--c')
+plot([taxis(1) taxis(end)],[bds(2) bds(2)],'--c')
 h=legend({'Left','Right','Across','Global'},'FontSize',14);
 axis tight
 xlabel(['Time (s)'],'FontSize',15)

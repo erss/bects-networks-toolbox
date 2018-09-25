@@ -4,8 +4,8 @@ function average_strengths = compute_average_strength( model,patient_coordinates
 % Obtain weighted network
 
 if strcmp(specs.A,'raw' )
-    A=model.mx0;
-    
+    %A=model.mx0;
+    A= model.kC;
     for k=1:size(A,3)
         Atemp = A(:,:,k);
         Atemp = Atemp + transpose(Atemp);
@@ -13,7 +13,8 @@ if strcmp(specs.A,'raw' )
     end
     
 elseif strcmp(specs.A,'binary' )
-    A=model.C;
+   % A=model.C;
+   A = model.net_coh;
 else
     A= NaN;
 end

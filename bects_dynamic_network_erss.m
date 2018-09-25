@@ -5,28 +5,29 @@
 %OUTVIDPATH = strcat('~/Desktop/',model.patient_name,'.avi');
 %OUTDATAPATH = strcat('~/Desktop/',model.patient_name,'.mat');
 %OUTDATAPATH = strcat('~/Documents/MATLAB/',model.patient_name,'.mat');
-OUTFIGPATH = strcat('~/Documents/MATLAB/',model.patient_name(1:9),'/');
-patient_coordinates = load_patient_coordinates( model.patient_name );
-% % 1. LOAD DATA
+% OUTFIGPATH = strcat('~/Documents/MATLAB/',model.patient_name(1:9),'/');
+% patient_coordinates = load_patient_coordinates( model.patient_name );
+% % % 1. LOAD DATA
+model.patient_name ='model013';
 model.data = [data_left;data_right];
-%
 % % 2. LOAD MODEL PARAMETERS
 model.sampling_frequency = 2035;
 %model.t = 1:1/model.sampling_frequency:size(model.data,2)/model.sampling_frequency;
-model.window_step = 0.5;% 0.5; % in seconds
-model.window_size = 1;   % in seconds
+model.window_step = 1;% 0.5; % in seconds
+model.window_size = 2;   % in seconds
 model.q=0.05;
 model.nsurrogates = 10000;
 model.t=time;
 % % 3. Remove artifacts
-model = remove_artifacts_all_lobes(model,patient_coordinates);
+model = remove_artifacts_all_lobes(model,patient_coordinates_013);
 % 3a. INFER NETWORK
- [ model ] = infer_network_correlation_bootstrap( model);
-
+ %[ model ] = infer_network_correlation_bootstrap( model);
+model013 = infer_network_imaginary_coherency_2(model);
 
 % 3b. SAVE DATA
-% model.data = NaN;  % clear data
-% save(OUTDATAPATH,'model')
+ model013.data = NaN;  % clear data
+ model013.data_clean = NaN;  % clear data
+ save('model013_IC_C.mat','model013')
 %%
 % % 4a. ANALYZE NETWORK - density
 %  [r,densities] = compute_network_densities(model.C,patient_coordinates);

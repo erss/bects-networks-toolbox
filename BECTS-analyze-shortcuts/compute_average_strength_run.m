@@ -1,12 +1,28 @@
-
-specs.normalize = 'true'; % true or false
-specs.A = 'raw'; % raw or binary
+patient_coordinates_006.status='active-left';
+patient_coordinates_007.status='active-right';
+patient_coordinates_013.status='healthy';
+specs.normalize = 'false'; % true or false
+specs.A = 'binary'; % raw or binary
 
 avg6 = compute_average_strength( model006,patient_coordinates_006,specs );
 avg7 = compute_average_strength( model007,patient_coordinates_007,specs );
-avg1302 = compute_average_strength( model013_rest02,patient_coordinates_013,specs );
-avg1305 = compute_average_strength( model013_rest05,patient_coordinates_013,specs );
-avg20 = compute_average_strength( model020,patient_coordinates_020,specs );
+avg1302 = compute_average_strength( model013,patient_coordinates_013,specs );
+
+avg1305.kGlobal= 0;
+avg1305.kFF= 0;
+avg1305.kFG= 0;
+avg1305.kLR= 0;
+avg1305.kFT= 0;
+avg1305.kPrPo= 0;
+
+avg20.kGlobal= 0;
+avg20.kFF= 0;
+avg20.kFG= 0;
+avg20.kLR= 0;
+avg20.kFT= 0;
+avg20.kPrPo= 0;
+%avg1305 = compute_average_strength( model013_rest05,patient_coordinates_013,specs );
+%avg20 = compute_average_strength( model020,patient_coordinates_020,specs );
 %%
 figure;
 subplot 611

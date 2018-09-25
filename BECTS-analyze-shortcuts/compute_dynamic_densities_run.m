@@ -1,10 +1,13 @@
 %% Compute dynamic densities and plots
-specs.A = 'raw'; % raw or binary
+
 
 
 load('/Users/erss/Documents/MATLAB/pBECTS006/pBECTS006_sleep07_source.mat');
 model006.data = [data_left;data_right];
 model006 = remove_artifacts_all_lobes(model006,patient_coordinates_006);
+%%
+specs.A = 'raw'; % raw or binary
+model006.mx0=model006.kIC_beta;
 [r,densities ]= compute_dynamic_densities(model006,patient_coordinates_006,specs);
 %%
 load('/Users/erss/Documents/MATLAB/pBECTS013/sleep_source/pBECTS013_rest02_source.mat')
