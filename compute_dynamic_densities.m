@@ -4,14 +4,31 @@ function [ r, densities]=compute_dynamic_densities(model,patient_coordinates,spe
 
 % Load t indexed network
 if strcmp(specs.A,'raw' )
-    A=abs(model.kC);
+    if strcmp(specs.measure,'ic' )
+        A=abs(model.kIC_beta);
+    elseif strcmp(specs.measure,'coherence' )
+        A= model.kC;
+    elseif strcmp(specs.measure,'xcorr' )
+        A=model.mx0;
+    else
+        A=NaN;
+    end
+    
     for k=1:size(A,3)
         Atemp = A(:,:,k);
         Atemp = Atemp + transpose(Atemp);
         A(:,:,k) = Atemp;
     end
 elseif strcmp(specs.A,'binary' )
-    A=model.net_coh;
+    if strcmp(specs.measure,'ic' )
+        A = model.net_imag_coh;
+    elseif strcmp(specs.measure,'coherence' )
+        A = model.net_coh;
+    elseif strcmp(specs.measure,'xcorr' )
+        A = model.C;
+    else
+        A=NaN;
+    end
 else
     A= NaN;
 end
@@ -53,7 +70,7 @@ for i = 1:size(A,3)
     fc_right_focus(i)   = nanmean(nR(:));  % ... each network
     fc_global(i)        = nanmean(nG(:));
     fc_left_to_right(i) = nanmean(nA(:));
-   
+    
 end
 
 
@@ -87,8 +104,8 @@ v1=fc_left_focus-nanmean(fc_left_focus);
 v2=fc_right_focus-nanmean(fc_right_focus);
 v1(isnan(v1))=[];
 v2(isnan(v2))=[];
+r= xcorr(v1,v2,0,'coeff');
 
-[r]= xcorr(v1,v2,0,'coeff');
 title(num2str(r))
 [mn, bds ]=normal_stats(fc_left_focus);
 

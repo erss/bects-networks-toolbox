@@ -4,7 +4,15 @@ function dynamic_strengths =compute_dynamic_strength(model,patient_coordinates,s
 
 
 if strcmp(specs.A,'raw' )
-    A=model.mx0;
+    if strcmp(specs.measure,'ic' )
+        A=abs(model.kIC_beta);
+    elseif strcmp(specs.measure,'coherence' )
+        A= model.kC;
+    elseif strcmp(specs.measure,'xcorr' )
+        A=model.mx0;
+    else
+        A=NaN;
+    end
     
     for k=1:size(A,3)
         Atemp = A(:,:,k);
@@ -13,11 +21,20 @@ if strcmp(specs.A,'raw' )
     end
     
 elseif strcmp(specs.A,'binary' )
-    A=model.C;
+    if strcmp(specs.measure,'ic' )
+        A = model.net_imag_coh;
+    elseif strcmp(specs.measure,'coherence' )
+        A = model.net_coh;
+        fprintf('coh')
+    elseif strcmp(specs.measure,'xcorr' )
+        A = model.C;
+    else
+        A=NaN;
+    end
 else
     A= NaN;
 end
- 
+
 % Replace diagonals with NaNs to ignore self connections
 n = size(A,2);
 for k=1:size(A,3)
@@ -39,27 +56,27 @@ if strcmp(patient_coordinates.status,'active-left')
     Al= A(LN,LN,:);
     Ar=nan(size(Al));
     Alg = A(LN,GNl,:);   % focus to rest of network ex-
-                                             % cluding focus
+    % cluding focus
     Arg = Ar;
 elseif strcmp(patient_coordinates.status,'active-right')
     Ar= A(RN,RN,:);
     Al=nan(size(Ar));
     Arg = A(RN,GNr,:);   % focus to rest of network ex-
-                                             % cluding focus
-    Alg =Al;                                         
+    % cluding focus
+    Alg =Al;
 elseif strcmp(patient_coordinates.status, 'healthy')
     Al = A(LN,LN,:);
     Ar = A(RN,RN,:);
-   
+    
     Alg = A(LN,GNl,:);
     Arg = A(RN,GNr,:);
 end
 
 network_left_to_right = A(LN,RN,:);          % left focus to right focus
 %network_focus_to_global = A([LN RN],GN,:);   % focus to rest of network ex-
-                                             % cluding focus
-                                             
-% Initialize corresponding functional connectivitiy vectors                                            
+% cluding focus
+
+% Initialize corresponding functional connectivitiy vectors
 fc_global = zeros(1,size(A,3));
 fc_focus_to_focus   = zeros(1,size(A,3));
 fc_left_to_right = zeros(1,size(A,3));
@@ -69,8 +86,8 @@ for i = 1:size(A,3)
     
     % Grab each network at each point in time
     nG   = A(:,:,i);
-    nFl   = Al(:,:,i); 
-    nFr   = Ar(:,:,i); 
+    nFl   = Al(:,:,i);
+    nFr   = Ar(:,:,i);
     nA   = network_left_to_right(:,:,i);
     nFGl  = Alg(:,:,i);
     nFGr = Arg(:,:,i);
