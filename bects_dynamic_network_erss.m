@@ -8,7 +8,7 @@
 % OUTFIGPATH = strcat('~/Documents/MATLAB/',model.patient_name(1:9),'/');
 % patient_coordinates = load_patient_coordinates( model.patient_name );
 % % % 1. LOAD DATA
-model.patient_name ='model013';
+model.patient_name ='model020';
 model.data = [data_left;data_right];
 % % 2. LOAD MODEL PARAMETERS
 model.sampling_frequency = 2035;

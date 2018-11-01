@@ -2,6 +2,7 @@ function plot_adj_matrix_on_grid( A, patient_coordinates)
 %UNTITLED6 Summary of this function goes here
 %   Detailed explanation goes here
 
+    
 % Network movie
 %OUTVIDPATH = strcat('~/Desktop/',patient,'.avi');
 OUTVIDPATH = '/Users/erss/Documents/MATLAB/BECTS-networks';
@@ -23,10 +24,10 @@ open(v);
 h = figure;
 
 for j = 1:size(A,3)
-    
+  
     G = graph(zeros(324,324),'OmitSelfLoops');
     p = plot(G,'XData',xyz(1,:),'YData',xyz(2,:),...
-        'ZData',xyz(3,:),'MarkerSize',5,'NodeColor',[0.3010, 0.7450, 0.9330]);
+        'ZData',xyz(3,:),'MarkerSize',6,'NodeColor',[0.3010, 0.7450, 0.9330]);
     view(90.1,90)
     axis tight
     box off
@@ -36,16 +37,19 @@ for j = 1:size(A,3)
     
     G = graph(Aleft(:,:,j),'OmitSelfLoops');
     p = plot(G,'XData',xyz(1,LN),'YData',xyz(2,LN),...
-        'ZData',xyz(3,LN),'MarkerSize',5,'NodeColor','r');
+        'ZData',xyz(3,LN),'MarkerSize',10,'NodeColor','r','LineWidth',2,...
+        'EdgeColor','k');
     p.NodeLabel = {};
+    
     G = graph(Aright(:,:,j),'OmitSelfLoops');
     p = plot(G,'XData',xyz(1,RN),'YData',xyz(2,RN),...
-        'ZData',xyz(3,RN),'MarkerSize',5,'NodeColor','g');
-    
+        'ZData',xyz(3,RN),'MarkerSize',10,'NodeColor','g','LineWidth',2, ...
+         'EdgeColor','k');
     p.NodeLabel = {};
     
     hold off
-    view(90.1,90)
+ %   view(90.1,90)
+    view(-107,14)
     drawnow
     
     F = getframe(h);

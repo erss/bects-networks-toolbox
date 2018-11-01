@@ -1,14 +1,23 @@
-function plotNetwork( adj)
+function plotNetwork( adj,varargin)
 % PLOTNETWORK plots the adjacency matrix (adj) such that white defines a
 %  non-edge and black defines an edge.
-
+if nargin ==1
+    figure;
+elseif ishandle(varargin{1}(1))
+    ax = varargin{1};
+    set(gcf, 'CurrentAxes', ax)
+end
+    
 imagesc(adj,'AlphaData',0.85); colormap(flipud(gray))
-
+caxis([0 1])
+% adj(isnan(adj)) =0.5;
 NumTicks = size(adj,2)+1;
 L = get(gca,'XLim');
 set(gca,'XTick',linspace(L(1),L(2),NumTicks))
 set(gca,'XTickLabel',[])
+if size(adj,2)==size(adj,1)
 grid on
+end
 names = 1:NumTicks-1;
 
 stringy = {};
@@ -20,8 +29,8 @@ end
 L = get(gca,'YLim');
 set(gca,'YTick',linspace(L(1),L(2),NumTicks))
 set(gca,'YTickLabel',[])
-ylabel('node - target');
-xlabel('node - source');
+ylabel('node - target','FontSize',18);
+xlabel('node - source','FontSize',18);
 axis square
 
 nelectrodes = size(adj,1);
