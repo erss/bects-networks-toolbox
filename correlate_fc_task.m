@@ -1,102 +1,63 @@
+specs.A= 'binary'
+specs.measure= 'coherence'
+specs.normalize= 'false'
+figure; hold on;
+avg3_02 = compute_average_strength( model003_02,patient_coordinates_003,specs );
+avg3_03 = compute_average_strength( model003_03,patient_coordinates_003,specs );
 
-avg3 = compute_average_strength( model003,patient_coordinates_003,specs );
+plot(avg3_02.kPrPo,84,'sb','MarkerSize',5,'MarkerFaceColor','b')
+text(avg3_02.kPrPo + 0.007, 84 +0.007, '0302')
+plot(avg3_03.kPrPo,84,'sb','MarkerSize',5,'MarkerFaceColor','b')
+text(avg3_03.kPrPo + 0.007, 84 +0.007, '0303')
+ 
+plot(mean([avg3_02.kPrPo,avg3_03.kPrPo]),84,'sb','MarkerSize',15,'MarkerFaceColor','b')
+text(mean([avg3_02.kPrPo,avg3_03.kPrPo]) + 0.007, 84 +0.007, 'mean 3')
+
 
 avg6 = compute_average_strength( model006,patient_coordinates_006,specs );
+plot(avg6.kPrPo,112,'sb','MarkerSize',15,'MarkerFaceColor','b')
+text(avg6.kPrPo + 0.007, 112 +0.007, '6')
+
 avg7 = compute_average_strength( model007,patient_coordinates_007,specs );
-avg1302 = compute_average_strength( model013,patient_coordinates_013,specs );
-% avg1305 = compute_average_strength( model013_rest05,patient_coordinates_013,specs );
- avg20 = compute_average_strength( model020,patient_coordinates_020,specs );
- avg19 = compute_average_strength( model019,patient_coordinates_019,specs );
+plot(avg7.kPrPo,78,'sb','MarkerSize',15,'MarkerFaceColor','b')
+text(avg7.kPrPo + 0.007, 78 +0.007, '7')
 
-labels = {'3','6','7','13','20','19'};  
-rowD = [84,112,78,24,81, 62];
-rowE = [-1.73,-1.87,0.07,1.53,-1.93,0.27];
-%%
-%%% Plot active in blue
-% rowD square
-% rowE *
+avg1302 = compute_average_strength( model013_02,patient_coordinates_013,specs );
+avg1305 = compute_average_strength( model013_05,patient_coordinates_013,specs );
+plot(avg1302.kPrPo,24,'sr','MarkerSize',5)
+plot(avg1305.kPrPo,24,'sr','MarkerSize',5)
+text(avg1302.kPrPo + 0.007, 24 +0.007, '1302')
+text(avg1305.kPrPo + 0.007, 24 +0.007, '1303')
+plot(mean([avg1302.kPrPo avg1305.kPrPo]),24,'sr','MarkerSize',15)
+text(mean([avg1302.kPrPo avg1305.kPrPo]) + 0.007, 24 +0.007, 'mean 13')
 
-% figure;
-% subplot 121
-% plot([avg6.kPrPo avg7.kPrPo],rowD(1:2),'sb');
-% hold on;
-% plot([mean([avg1302.kPrPo,avg1305.kPrPo]) avg20.kPrPo],rowD(3:4),'sr');
-% title('Row D')
-% xlabel('functional connectivity')
-% ylabel('GPDBdomRaw')
+avg1901 = compute_average_strength( model019_01,patient_coordinates_019,specs );
+plot(avg1901.kPrPo,62,'sr','MarkerSize',15)
+text(avg1901.kPrPo + 0.007, 62 +0.007, '19')
+% avg20_03 = compute_average_strength( model020_03,patient_coordinates_020,specs );
+% avg20_04 = compute_average_strength( model020_04,patient_coordinates_020,specs );
+avg20_05 = compute_average_strength( model020_05,patient_coordinates_020,specs );
+avg20_06 = compute_average_strength( model020_06,patient_coordinates_020,specs );
+% plot(avg20_03.kPrPo,81,'sr','MarkerSize',5)
+% plot(avg20_04.kPrPo,81,'sr','MarkerSize',5)
+plot(avg20_05.kPrPo,81,'sr','MarkerSize',5)
+plot(avg20_06.kPrPo,81,'sr','MarkerSize',5)
+% text(avg20_03.kPrPo + 0.007, 81 +0.007, '2003')
+% text(avg20_04.kPrPo + 0.007, 81 +0.007, '20')
+text(avg20_05.kPrPo + 0.007, 81 +0.007, '20')
+text(avg20_06.kPrPo + 0.007, 81 +0.007, '20')
 % 
-% %%% Plot healthy in red
-% % rowD square
-% % rowE *
-%  subplot 122
-% plot([avg6.kPrPo avg7.kPrPo],rowE(1:2),'*b');
-% hold on;
-% plot([mean([avg1302.kPrPo,avg1305.kPrPo]) avg20.kPrPo],rowE(3:4),'*r');
-% title('Row E')
-% xlabel('functional connectivity')
-% ylabel('GPDBdomZ')
-
-%%
-figure;
-plot([avg3.kPrPo],rowD(1),'sb','MarkerSize',15,'MarkerFaceColor','b');
-hold on;
-plot([avg1302.kPrPo],rowD(4),'*r','MarkerSize',15);
-plot([avg3.kPrPo avg6.kPrPo avg7.kPrPo],rowD(1:3),'sb','MarkerSize',15,'MarkerFaceColor','b');
-hold on
-plot([avg1302.kPrPo avg20.kPrPo avg19.kPrPo],rowD(4:end),'*r','MarkerSize',15);
-h=legend('Active BECTS','Healthy Controls')
-legend boxoff
-set(h,'FontSize',16)
-% text(avg3.kPrPo + 0.007, rowD(1) +0.007, '3')
-% 
-% text(avg6.kPrPo + 0.007, rowD(2) +0.007, '6')
-% text(avg7.kPrPo + 0.007, rowD(3) +0.007, '7')
-% text(avg1302.kPrPo + 0.007, rowD(4) +0.007, '13')
-% text(avg20.kPrPo + 0.007, rowD(5) +0.007, '20')
-% text(avg19.kPrPo + 0.007, rowD (6) +0.007, '19')
+% m1= mean([avg20_03.kPrPo avg20_04.kPrPo avg20_05.kPrPo avg20_06.kPrPo]);
+% plot(m1,81,'sr','MarkerSize',15)
+% text(m1 + 0.007, 81 +0.007, 'mean 20')
 axis square
 set(gca,'FontSize',18)
-title('Task Performance vs Density of Network Connections','FontSize',20)
-xlabel('Density of Averaged Network','FontSize',20)
+title('Task Performance vs Mean Raw Coherence','FontSize',20)
+xlabel('Raw Mean Coherence','FontSize',20)
+%xlabel('Mean Network Density','FontSize',20)
 ylabel('Time to Complete Task (s)','FontSize',20)
 box off
-%ylabel('GPDBdomRaw')
 %%
-%%% Plot healthy in red
-% rowD square
-% rowE *
-figure;
-plot([avg3.kPrPo avg6.kPrPo avg7.kPrPo],rowE(1:3),'*b');
-hold on;
-plot([avg1302.kPrPo avg20.kPrPo avg19.kPrPo ] ,rowE(4:end),'*r');
-% text(avg3.kPrPo + 0.007, rowE(1) +0.007, '3')
-% 
-% text(avg6.kPrPo + 0.007, rowE(2) +0.007, '6')
-% text(avg7.kPrPo + 0.007, rowE(3) +0.007, '7')
-% text(avg1302.kPrPo + 0.007, rowE(4) +0.007, '13')
-% text(avg20.kPrPo + 0.007, rowE (5) +0.007, '20')
-% text(avg19.kPrPo + 0.007, rowE (6) +0.007, '19')
-axis square
-title('Row E')
-xlabel('functional connectivity')
-ylabel('GPDBdomZ')
-
-% figure;
-% subplot 121
-% plot([avg6.kPrPo avg7.kPrPo],rowD(1:2),'sb');
-% hold on;
-% plot([avg1302.kPrPo],rowD(3:3),'sr');
-% title('Row D')
-% xlabel('functional connectivity')
-% ylabel('GPDBdomRaw')
-% 
-% %%% Plot healthy in red
-% % rowD square
-% % rowE *
-%  subplot 122
-% plot([avg6.kPrPo avg7.kPrPo],rowE(1:2),'*b');
-% hold on;
-% plot([avg1302.kPrPo ] ,rowE(3:3),'*r');
-% title('Row E')
-% xlabel('functional connectivity')
-% ylabel('GPDBdomZ')
+labels = {'3','6','7','13','20','19'};  
+rowD =   [84, 112, 78, 24,  81, 62];
+rowE = [-1.73,-1.87,0.07,1.53,-1.93,0.27];

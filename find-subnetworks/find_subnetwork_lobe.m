@@ -36,13 +36,14 @@ elseif  strcmp(str,'parietal')
     LN =[LN; find(strcmp(LDL,'posteriorcingulate'))];
     LN =[LN; find(strcmp(LDL,'paracentral'))];
     LN =[LN; find(strcmp(LDL,'precuneus'))];
-    
+    LN =[LN; find(strcmp(LDL,'postcentral'))];
+     
     RN =[RN; find(strcmp(RDL,'supramarginal'))];
     RN =[RN; find(strcmp(RDL,'isthmuscingulate'))];
     RN =[RN; find(strcmp(RDL,'posteriorcingulate'))];
     RN =[RN; find(strcmp(RDL,'paracentral'))];
     RN =[RN; find(strcmp(RDL,'precuneus'))];
-    
+    RN =[RN; find(strcmp(RDL,'postcentral'))];
 elseif  strcmp(str,'occipital')
     
     LN =[LN; find(strcmp(LDL,'lingual'))];
@@ -54,17 +55,19 @@ elseif  strcmp(str,'occipital')
     RN =[RN; find(strcmp(RDL,'cuneus'))];
     
 elseif  strcmp(str,'frontal')
-    LN =[LN; find(contains(LDL,'orbitalis'))]; % ?
-    LN =[LN; find(contains(LDL,'triangularis'))]; % ?
-    LN =[LN; find(contains(LDL,'opercularis'))]; % ?
+    LN =[LN; find(contains(LDL,'parsorbitalis'))]; % ?
+    LN =[LN; find(contains(LDL,'parstriangularis'))]; % ?
+    LN =[LN; find(contains(LDL,'parsopercularis'))]; % ?
     LN =[LN; find(strcmp(LDL,'caudalanteriorcingulate'))];
     LN =[LN; find(strcmp(LDL,'rostralanteriorcingulate'))];
-    
-    RN =[RN; find(contains(RDL,'orbitalis'))]; % ?
-    RN =[RN; find(contains(RDL,'triangularis'))]; % ?
-    RN =[RN; find(contains(RDL,'opercularis'))]; % ?
+    LN =[LN; find(strcmp(LDL,'precentral'))];
+  
+    RN =[RN; find(contains(RDL,'parsorbitalis'))]; % ?
+    RN =[RN; find(contains(RDL,'parstriangularis'))]; % ?
+    RN =[RN; find(contains(RDL,'parsopercularis'))]; % ?
     RN =[RN; find(strcmp(RDL,'caudalanteriorcingulate'))];
     RN =[RN; find(strcmp(RDL,'rostralanteriorcingulate'))];
+    RN =[RN; find(strcmp(RDL,'precentral'))];
     
 else
     

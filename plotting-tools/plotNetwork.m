@@ -29,8 +29,8 @@ end
 L = get(gca,'YLim');
 set(gca,'YTick',linspace(L(1),L(2),NumTicks))
 set(gca,'YTickLabel',[])
-ylabel('node - target','FontSize',18);
-xlabel('node - source','FontSize',18);
+% ylabel('node - target','FontSize',18);
+% xlabel('node - source','FontSize',18);
 axis square
 
 nelectrodes = size(adj,1);

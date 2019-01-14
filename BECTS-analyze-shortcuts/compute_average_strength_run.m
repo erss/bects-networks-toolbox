@@ -1,29 +1,23 @@
+patient_coordinates_019.hand='right';
+
+patient_coordinates_003.hand='right';
+patient_coordinates_003.status='active-left';
 patient_coordinates_006.status='active-left';
 patient_coordinates_007.status='active-right';
 patient_coordinates_013.status='healthy';
+patient_coordinates_019.status='healthy';
+
 patient_coordinates_020.status='healthy';
 specs.normalize = 'true'; % true or false
 specs.A = 'raw'; % raw or binary
 specs.measure = 'coherence'; % 'coherence'; 'xcorr'
+avg3 = compute_average_strength( model003,patient_coordinates_003,specs );
 avg6 = compute_average_strength( model006,patient_coordinates_006,specs );
 avg7 = compute_average_strength( model007,patient_coordinates_007,specs );
-avg1302 = compute_average_strength( model013,patient_coordinates_013,specs );
-
-avg1305.kGlobal= 0;
-avg1305.kFF= 0;
-avg1305.kFG= 0;
-avg1305.kLR= 0;
-avg1305.kFT= 0;
-avg1305.kPrPo= 0;
-% 
-% avg20.kGlobal= 0;
-% avg20.kFF= 0;
-% avg20.kFG= 0;
-% avg20.kLR= 0;
-% avg20.kFT= 0;
-% avg20.kPrPo= 0;
-%avg1305 = compute_average_strength( model013_rest05,patient_coordinates_013,specs );
+avg13 = compute_average_strength( model013,patient_coordinates_013,specs );
+avg19 = compute_average_strength( model019,patient_coordinates_019,specs );
 avg20 = compute_average_strength( model020,patient_coordinates_020,specs );
+
 %%
 % figure;
 % subplot 611

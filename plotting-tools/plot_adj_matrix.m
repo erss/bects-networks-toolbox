@@ -13,9 +13,14 @@ open(v);
 h = figure;
 
 for j = 1:size(A,3)
-    
+ %   h1=subplot(1,2,1);
     plotNetwork(A(:,:,j))
-    
+%     h2=subplot(1,2,2)
+%     deg = sum(A(:,:,j),2);
+%     histogram(deg);
+%     set(h2,'YScale','log')
+%     set(h2,'XScale','log')
+    axis square
     hold off
     drawnow
     

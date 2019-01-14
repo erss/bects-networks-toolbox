@@ -36,25 +36,7 @@ load('/Users/erss/Documents/MATLAB/pBECTS_inferred_nets/cross_corr_bootstrap/pBE
 model020 = model;
 clear model
 
-%% load coherence - r1 networks
-load('/Users/erss/Documents/MATLAB/pBECTS_inferred_nets/coherence - r1/pBECTS003_coherence.mat')
-model003=model;
-clear model
-load('/Users/erss/Documents/MATLAB/pBECTS_inferred_nets/coherence - r1/pBECTS006_coherence.mat')
-model006 = model;
-clear model
-load('/Users/erss/Documents/MATLAB/pBECTS_inferred_nets/coherence - r1/pBECTS007_coherence.mat')
-model007 = model;
-clear model
-load('/Users/erss/Documents/MATLAB/pBECTS_inferred_nets/coherence - r1/pBECTS013_rest02_coherence.mat')
-model013 = model;
-clear model
-load('/Users/erss/Documents/MATLAB/pBECTS_inferred_nets/coherence - r1/pBECTS020_coherence.mat')
-model020 = model;
-clear model]'
-load('/Users/erss/Documents/MATLAB/pBECTS_inferred_nets/coherence - r1/pBECTS019_rest01_coherence.mat')
-model019 = model;
-clear model
+
 %% load coherence - r2 networks
 load('/Users/erss/Documents/MATLAB/pBECTS_inferred_nets/coherence - r2/pBECTS006_sleep07_coherence_cleaning.mat')
 model006 = model;
@@ -68,4 +50,26 @@ clear model
 load('/Users/erss/Documents/MATLAB/pBECTS_inferred_nets/coherence - r2/pBECTS020_rest03_coherence_cleaning.mat')
 model020 = model;
 clear model
+
+
+%% load power
+load('pBECTS003_rest02_power.mat')
+model003 = model;
+clear model
+load('pBECTS006_power.mat')
+model006 = model;
+clear model
+load('pBECTS007_power.mat')
+model007 = model;
+clear model
+load('pBECTS013_rest02_power.mat')
+model013 = model;
+clear model
+load('pBECTS019_rest01_power.mat')
+model019 = model;
+clear model
+load('pBECTS020_rest05_power.mat')
+model020 = model;
+clear model
+
 
