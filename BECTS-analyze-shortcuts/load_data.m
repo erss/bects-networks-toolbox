@@ -38,6 +38,7 @@ clear model
 
 
 %% load coherence - r2 networks
+
 load('/Users/erss/Documents/MATLAB/pBECTS_inferred_nets/coherence - r2/pBECTS006_sleep07_coherence_cleaning.mat')
 model006 = model;
 clear model
@@ -50,6 +51,7 @@ clear model
 load('/Users/erss/Documents/MATLAB/pBECTS_inferred_nets/coherence - r2/pBECTS020_rest03_coherence_cleaning.mat')
 model020 = model;
 clear model
+
 
 
 %% load power
@@ -71,5 +73,48 @@ clear model
 load('pBECTS020_rest05_power.mat')
 model020 = model;
 clear model
+
+%% load coherence v3 nets BETA
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r3/pBECTS003_rest02_beta.mat')
+model003 = model;
+
+clear model
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r3/pBECTS006_sleep07_beta.mat')
+model006 = model;
+clear model
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r3/pBECTS006_sleep07_beta.mat')
+model007 = model;
+clear model
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r3/pBECTS013_rest02_beta.mat')
+model013 = model;
+clear model
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r3/pBECTS019_rest01_beta.mat')
+model019 = model;
+clear model
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r3/new_patient20_wo_bad_channel/pBECTS020_rest05__coherence_v3.mat')
+model020 = model;
+clear model
+
+
+
+
+%% load sigma and beta two
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r3/pBECTS007_sleep05_sigma_coherence.mat')
+model007_sigma = model_sigma;
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r3/pBECTS007_sleep05_beta_two_coherence.mat')
+model007_b2 = model_beta_two;
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r3/pBECTS019_rest01__sigma_coherence.mat')
+model019_sigma = model_sigma;
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r3/pBECTS019_rest01__beta_two_coherence.mat')
+model019_b2 = model_beta_two;
+
 
 

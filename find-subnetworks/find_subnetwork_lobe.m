@@ -1,5 +1,7 @@
 function [ LN,RN ] = find_subnetwork_lobe( patient_coordinates,str)
-% Choose subnetworks based on name
+% Returns indices of all nodes within given lobe, 'str'. Outputs LN and RN
+% correspond to nodes on the left and right hemispheres respectively. 
+
 LDL = patient_coordinates.LDL;
 RDL = patient_coordinates.RDL;
 for i = 1:size(LDL,1)
@@ -11,8 +13,7 @@ for i = 1:size(LDL,1)
         RDL{i,1} = '';
     end
 end
-LN =[];
-RN =[];
+
 
 LN  = find(contains(LDL,str));
 RN  = find(contains(RDL,str));

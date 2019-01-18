@@ -1,10 +1,18 @@
 function [ PreN,PostN ] = find_subnetwork_prepost( patient_coordinates)
-%UNTITLED9 Summary of this function goes here
-%   Detailed explanation goes here
-
-%% Choose subnetworks based on name
+% Returns indices of the pre- and post- central gyrus (PreN and PostN,
+% respectively) contralateral to the dominant hand.
 LDL = patient_coordinates.LDL;
 RDL = patient_coordinates.RDL;
+for i = 1:size(LDL,1)
+    if isempty(LDL{i,1})
+        LDL{i,1} = '';
+    end
+    
+    if isempty(RDL{i,1})
+        RDL{i,1} = '';
+    end
+end
+
 hand = patient_coordinates.hand;
 if strcmp(hand,'right')
     PreN   = find(strcmp(LDL,'precentral'));
@@ -17,9 +25,9 @@ if strcmp(hand,'left')
 end
 
 
-PreN = sort(PreN);
+PreN = sort(unique(PreN));
 PreN= reshape(PreN,[length(PreN) 1]);
-PostN = sort(PostN);
+PostN = sort(unique(PostN));
 PostN= reshape(PostN,[length(PostN) 1]);
 end
 

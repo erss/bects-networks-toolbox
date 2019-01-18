@@ -46,12 +46,12 @@ ylabel('Power')
 
 %% Compute bumps
 
-sum(hc_spectra(f>=10 & f<15))/sum(hc_spectra(f>=15 & f<20))
-sum(aBECTS_spiking_focus(f>=10 & f<15))/sum(aBECTS_spiking_focus(f>=15 & f<20))
-sum(aBECTS_nonspiking_focus(f>=10 & f<15))/sum(aBECTS_nonspiking_focus(f>=15 & f<20))
-sum(aBECTS_combined(f>=10 & f<15))/sum(aBECTS_combined(f>=15 & f<20))
+mean(hc_spectra(f>=10 & f<15))/mean(hc_spectra(f>=15 & f<30))
+mean(aBECTS_spiking_focus(f>=10 & f<15))/mean(aBECTS_spiking_focus(f>=15 & f<30))
+mean(aBECTS_nonspiking_focus(f>=10 & f<15))/mean(aBECTS_nonspiking_focus(f>=15 & f<30))
+mean(aBECTS_combined(f>=10 & f<15))/mean(aBECTS_combined(f>=15 & f<30))
 
 
-v = psd_003.power_combined;
+v = psd_019.power_combined;
 sum(v(f>=10 & f<15))/sum(v(f>=15 & f<20));
 

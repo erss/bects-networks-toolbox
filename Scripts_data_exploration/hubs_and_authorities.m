@@ -1,4 +1,4 @@
-pc=patient_coordinates_006;
+pc=patient_coordinates_020;
 A=nanmean(model.net_coh,3);
 MAuthority = transpose(A)*A;
 MHubs = A*transpose(A);
