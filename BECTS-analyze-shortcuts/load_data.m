@@ -84,7 +84,7 @@ load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r3/pBECTS006_sleep
 model006 = model;
 clear model
 
-load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r3/pBECTS006_sleep07_beta.mat')
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r3/pBECTS007_sleep05_beta.mat')
 model007 = model;
 clear model
 
@@ -101,8 +101,6 @@ model020 = model;
 clear model
 
 
-
-
 %% load sigma and beta two
 load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r3/pBECTS007_sleep05_sigma_coherence.mat')
 model007_sigma = model_sigma;
@@ -116,5 +114,59 @@ model019_sigma = model_sigma;
 load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r3/pBECTS019_rest01__beta_two_coherence.mat')
 model019_b2 = model_beta_two;
 
+%% load sigma  2 s
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r4/pBECTS003_rest02_sigma_two_seconds.mat')
+model003 = model_sigma_two;
+
+clear model_sigma_two
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r4/pBECTS006_sleep07_sigma_two_seconds.mat')
+model006 = model_sigma_two;
+clear model_sigma_two
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r4/pBECTS007_sleep05_sigma_two_seconds.mat')
+model007 = model_sigma_two;
+clear model_sigma_two
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r4/pBECTS013_rest02_sigma_two_seconds.mat')
+model013 = model_sigma_two;
+clear model_sigma_two
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r4/pBECTS019_rest01_sigma_two_seconds.mat')
+model019 = model_sigma_two;
+clear model_sigma_two
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r4/pBECTS020_rest05_sigma_two_seconds.mat')
+model020 = model_sigma_two;
+clear model_sigma_two
+
+%%
+%% load sigma  4 s
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r4/pBECTS003_rest02_sigma_four_seconds.mat')
+model003 = model_sigma_four;
+
+clear model_sigma_four
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r4/pBECTS006_sleep07_sigma_four_seconds.mat')
+model006 = model_sigma_four;
+clear model_sigma_four
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r4/pBECTS007_sleep05_sigma_four_seconds.mat')
+model007 = model_sigma_four;
+clear model_sigma_four
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r4/pBECTS013_rest02_sigma_four_seconds.mat')
+model013 = model_sigma_four;
+clear model_sigma_four
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r4/pBECTS019_rest01_sigma_four_seconds.mat')
+model019 = model_sigma_four;
+clear model_sigma_four
+
+load('/Users/erss/Documents/MATLAB/pBECTS_results/coherence - r4/pBECTS020_rest05_sigma_four_seconds.mat')
+model020 = model_sigma_four;
+clear model_sigma_four
 
 

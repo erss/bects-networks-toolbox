@@ -1,5 +1,5 @@
 %%% Load patient coords
-pc= patient_coordinates_013;
+pc= patient_coordinates_020;
 xyz=pc.coords(3:end,:);
 %%% Plot grid
 G = graph(zeros(324,324),'OmitSelfLoops');
@@ -49,7 +49,7 @@ p.NodeLabel = {};
 left_net = [LNp;LNt;LNo;LNf;LN];
 right_net = [RNp;RNt;RNo;RNf;RN];
 ii = 1:324;
-ii([left_net;right_net])=[];
+ii([left_net;right_net])=[]; 
 nM = length(ii);
 
 % 1b) Check which are missing

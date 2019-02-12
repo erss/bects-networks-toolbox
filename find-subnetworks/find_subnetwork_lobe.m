@@ -73,7 +73,10 @@ elseif  strcmp(str,'frontal')
 else
     
 end
-
+if ~strcmp(str,'frontal') && ~strcmp(str,'parietal') && ...
+    ~strcmp(str,'occipital') && ~strcmp(str,'temporal')
+    fprintf('typo \n')
+else
 %%%
 % bankssts??
 % parsopercularis ?= opercularis

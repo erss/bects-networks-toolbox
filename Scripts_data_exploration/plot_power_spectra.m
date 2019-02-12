@@ -11,10 +11,10 @@ psd_013 = power_in_focus( model013,patient_coordinates_013);
 psd_019 = power_in_focus( model019,patient_coordinates_019);
 psd_020 = power_in_focus( model020,patient_coordinates_020);
 
-hc_spectra = psd_013.power_combined + psd_019.power_combined + psd_020.power_combined ;
-aBECTS_spiking_focus = psd_003.power_left + psd_006.power_left+ psd_007.power_right ;
+hc_spectra              = psd_013.power_combined + psd_019.power_combined + psd_020.power_combined ;
+aBECTS_spiking_focus    = psd_003.power_left + psd_006.power_left+ psd_007.power_right ;
 aBECTS_nonspiking_focus = psd_003.power_right + psd_006.power_right+ psd_007.power_left ;
-aBECTS_combined  = psd_003.power_combined + psd_006.power_combined + psd_007.power_combined ;
+aBECTS_combined         = psd_003.power_combined + psd_006.power_combined + psd_007.power_combined ;
 f=model003.f;
 %%
 plot(f,hc_spectra./3,f,aBECTS_spiking_focus./3,f,aBECTS_nonspiking_focus./3,f,aBECTS_combined./3)
@@ -25,7 +25,7 @@ legend('Healthy controls','BECTS spiking', 'BECTS non spiking', 'BECTS combined'
 figure;
 plot(f,psd_013.power_combined,'k','LineWidth',1.5)
 hold on
-plot(f, psd_019.power_combined,'--k','LineWidth',1.5)
+plot(f,psd_019.power_combined,'--k','LineWidth',1.5)
 plot(f,psd_020.power_combined ,'-.k','LineWidth',1.5)
 
 plot(f,psd_003.power_left,'m',f, psd_006.power_left,'--m',f,psd_007.power_right ,'om')
