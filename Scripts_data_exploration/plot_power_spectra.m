@@ -36,6 +36,15 @@ xlim([5 30])
 xlabel('Frequency')
 ylabel('Power')
 
+%%
+psd_001 = power_in_focus( model,patient_coordinates_001);
+f = model.f;
+figure;
+plot(f,psd_001.power_left,'m',f, psd_001.power_right,'g',f,psd_001.power_combined ,'b')
+legend('left SOZ','right SOZ', 'combined')
+xlim([5 30])
+xlabel('Frequency')
+ylabel('Power')
 %%%
 %%% Normalized power
 %%% 6 has no bump, 7 has no bump, 3 has a large bump (and is higher in non
@@ -53,5 +62,9 @@ mean(aBECTS_combined(f>=10 & f<15))/mean(aBECTS_combined(f>=15 & f<30))
 
 
 v = psd_019.power_combined;
+sum(v(f>=10 & f<15))/sum(v(f>=15 & f<20));
+
+
+v = psd_001.power_combined;
 sum(v(f>=10 & f<15))/sum(v(f>=15 & f<20));
 

@@ -5,7 +5,7 @@ function r = plot_patient_activity( model,pc )
 taxis = model.dynamic_network_taxis;
 % Determine subnetwork indices
 [ LN,RN ] = find_subnetwork_coords(pc);
-n = size(model.kC,3);
+n = size(model.kC,1); % all nodes in the network
 % Define subnetworks of interest
 if strcmp(pc.status,'active-left') || strcmp(pc.status,'healthy')
     spikingSOZ    = LN;
