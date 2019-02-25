@@ -64,7 +64,7 @@ plot([taxis(1) taxis(end)],[mnGlobal-1.96*semGlobal mnGlobal-1.96*semGlobal],'--
 plot([taxis(1) taxis(end)],[mnGlobal+1.96*semGlobal mnGlobal+1.96*semGlobal],'--k')
 axis tight
 ylim([0 1])
-if strcmp(pc.status,'healthy')
+if strcmp(pc.status,'healthy') || strcmp(pc.status,'remission')
     h=legend({'Left Lower Pre/Post CG','Right Lower Pre/Post CG','Between L-R','Global'},'FontSize',16);
 else
     h=legend({'Spiking SOZ','Non  Spiking SOZ','Between SOZs','Global'},'FontSize',16);
