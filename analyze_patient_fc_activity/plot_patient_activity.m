@@ -7,7 +7,8 @@ taxis = model.dynamic_network_taxis;
 [ LN,RN ] = find_subnetwork_coords(pc);
 n = size(model.kC,1); % all nodes in the network
 % Define subnetworks of interest
-if strcmp(pc.status,'active-left') || strcmp(pc.status,'healthy')
+if strcmp(pc.status,'active-left') || strcmp(pc.status,'healthy') ... 
+        ||   strcmp(pc.status,'remission')
     spikingSOZ    = LN;
     nonspikingSOZ = RN;
 elseif strcmp(pc.status,'active-right')
@@ -44,7 +45,7 @@ v2 = dNonSpiking-nanmean(dNonSpiking);
 v1(isnan(v1))=[];
 v2(isnan(v2))=[];
 r= xcorr(v1,v2,0,'coeff');
-title([model.patient_name '-' num2str(model.window_size) 's-xcorr: ' num2str(r)],'FontSize',20)
+title([model.patient_name '- ' model.fband ' -xcorr: ' num2str(r)],'FontSize',20)
 
 % Plot error bars
 plot([taxis(1) taxis(end)],[mnSpiking mnSpiking],'-r','LineWidth',1.3)
