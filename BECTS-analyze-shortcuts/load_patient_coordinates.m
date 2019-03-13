@@ -25,7 +25,7 @@ function [ patient_coordinates ] = load_patient_coordinates(DATAPATH, source_ses
 %
 %  Questions: (1) do I include hand, spiking hemisphere, status ...?
 %             (2) xyz are the same for each sesssion
-if exist('patient_coordinates.mat','file') ~=2
+if exist([DATAPATH '/patient_coordinates.mat'],'file') ~=2
     load([DATAPATH '/' source_session(1:9) '_source_in_lowerhalf']);
     load([DATAPATH '/sleep_source/' source_session]);
     

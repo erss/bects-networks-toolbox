@@ -1,12 +1,13 @@
 %%% Script to load all the data
 
 %% load patient_coordinates
-load('/Users/erss/Documents/MATLAB/pBECTS006/patient_coordinates_006.mat')
-load('/Users/erss/Documents/MATLAB/pBECTS007/patient_coordinates_007.mat')
-load('/Users/erss/Documents/MATLAB/pBECTS020/patient_coordinates_020.mat')
-load('/Users/erss/Documents/MATLAB/pBECTS013/patient_coordinates_013.mat')
-load('/Users/erss/Documents/MATLAB/pBECTS019/patient_coordinates_019.mat')
-load('/Users/erss/Documents/MATLAB/pBECTS003/patient_coordinates_003.mat')
+DATAPATH= '~/Desktop/bects_data/DansData/';
+load([ DATAPATH 'pBECTS006/patient_coordinates_006.mat'])
+load([ DATAPATH 'pBECTS007/patient_coordinates_007.mat'])
+load([ DATAPATH 'pBECTS020/patient_coordinates_020.mat'])
+load([ DATAPATH 'pBECTS013/patient_coordinates_013.mat'])
+load([ DATAPATH 'pBECTS019/patient_coordinates_019.mat'])
+load([ DATAPATH 'pBECTS003/patient_coordinates_003.mat'])
 patient_coordinates_006.status ='active-left';
 patient_coordinates_007.status ='active-right';
 patient_coordinates_020.status ='healthy';
