@@ -36,8 +36,6 @@ for k = 1:length(i)
     A(i(k),j(k),:) = NaN;
 end
 
-taxis = model.dynamic_network_taxis;
-
 % Define subnetworks of interest
 if ~isstruct(nodes)
     network = A(nodes,nodes,:);
