@@ -8,7 +8,7 @@
 % Load filter
 addpath(genpath(['Dynanets/2-preprocess']))
 addpath(genpath(['Toolboxes/mgh']))
-pc=patient_coordinates_006;
+pc=patient_coordinates;
 
 data =[data_left;data_right];
 
@@ -37,7 +37,7 @@ ii([left_net;right_net])=[];
 
 % Filter everything
 tic
-y = lsfilter(data',2035,[12 30]);
+y = lsfilter(data',2035,[10 15]);
 filttimet=toc;
 
 
@@ -91,14 +91,14 @@ for k = 1:i_total %length(t_clean)
         figure(h)
         subplot(2,6,1)
         plotchannels(t(indices),dL(indices,:));
-        title('Left Channels')
+        title('Left Pre-Post Central Channels')
         axis square
         subplot(2,6,7)
         plotchannels(t(indices),dR(indices,:));
-        title('Right Channels')
+        title('Right Pre-Post Central Channels')
         axis square
-        h1=subplot(2,6,6);
-        plotNetwork(model.net_coh([LN;RN],[LN;RN],k),h1)
+%         h1=subplot(2,6,6);
+%         plotNetwork(model.net_coh([LN;RN],[LN;RN],k),h1)
         
         subplot(2,6,2)
         plotchannels(t(indices),dLt(indices,:));
@@ -137,12 +137,12 @@ for k = 1:i_total %length(t_clean)
         axis square
         
         
-        drawnow
-        if indices(60366)
-          suptitle(['SPIKE'])
-        else
-        suptitle(['Index: ' num2str(k)])
-        end
+%         drawnow
+%         if indices(60366)
+%           suptitle(['SPIKE'])
+%         else
+%         suptitle(['Index: ' num2str(k)])
+%         end
         
         F = getframe(h);
         image = F.cdata;

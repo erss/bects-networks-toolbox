@@ -26,6 +26,7 @@ function [ patient_coordinates ] = load_patient_coordinates(DATAPATH, source_ses
 %  Questions: (1) do I include hand, spiking hemisphere, status ...?
 %             (2) xyz are the same for each sesssion
 if exist([DATAPATH '/patient_coordinates.mat'],'file') ~=2
+    load([DATAPATH(1:end-9) 'masterspread.mat'])
     load([DATAPATH '/' source_session(1:9) '_source_in_lowerhalf']);
     load([DATAPATH '/sleep_source/' source_session]);
     
@@ -39,6 +40,11 @@ if exist([DATAPATH '/patient_coordinates.mat'],'file') ~=2
     patient_coordinates.left_focus  = [source_in_left_pos source_in_left_pre];
     patient_coordinates.right_focus = [source_in_right_pos source_in_right_pre];
     
+    i = find(masterspread.ID==source_session(1:9));
+    patient_coordinates.hand   = char(masterspread.Handedness(i));
+    patient_coordinates.status = char(masterspread.Group(i));
+    patient_coordinates.gender = char(masterspread.Gender(i));
+
     save([DATAPATH '/patient_coordinates.mat'],'patient_coordinates')
     
 else

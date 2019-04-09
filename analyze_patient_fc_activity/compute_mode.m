@@ -26,7 +26,7 @@ n = size(A,1);
 
 % Replace diagonal and lower triangle NaN
 M = NaN(n);
-M =tril(M);
+M = tril(M);
 
 for k=1:size(A,3)
     A(:,:,k)          = A(:,:,k) + M;
@@ -35,14 +35,14 @@ for k=1:size(A,3)
 end
 
 % Exclude distances <=0.01
-D     = compute_nodal_distances(pc.coords(3:5,:));
-[i,j] = find(D<=0.01);
-
-for k = 1:length(i)
-    A(i(k),j(k),:)          = NaN;
-    cube_lower(i(k),j(k),:) = NaN;
-    cube_upper(i(k),j(k),:) = NaN;
-end
+% D     = compute_nodal_distances(pc.coords(3:5,:));
+% [i,j] = find(D<=0.01);
+% 
+% for k = 1:length(i)
+%     A(i(k),j(k),:)          = NaN;
+%     cube_lower(i(k),j(k),:) = NaN;
+%     cube_upper(i(k),j(k),:) = NaN;
+% end
 
 % Define subnetworks of interest
 if ~isstruct(nodes)
@@ -66,7 +66,7 @@ c(isnan(c))=[];
 
 surrogates = nan(1,nsurrogates);
 
-dt = 0.001;
+dt = 0.01;
 for i = 1:nsurrogates
 r = (b-a).*rand(length(a),1) + a;
 
