@@ -26,25 +26,47 @@ function [ patient_coordinates ] = load_patient_coordinates(DATAPATH, source_ses
 %  Questions: (1) do I include hand, spiking hemisphere, status ...?
 %             (2) xyz are the same for each sesssion
 if exist([DATAPATH '/patient_coordinates.mat'],'file') ~=2
-    load([DATAPATH(1:end-9) 'masterspread.mat'])
-    load([DATAPATH '/' source_session(1:9) '_source_in_lowerhalf']);
-    load([DATAPATH '/sleep_source/' source_session]);
+    if strcmp(DATAPATH(end-5:end),'visit2')
+        load([DATAPATH(1:end-16) 'masterspread.mat']);
+        load([DATAPATH '/' source_session(1:16) '_source_in_lowerhalf']);
+        load([DATAPATH '/sleep_source/' source_session]);
+        
+        patient_coordinates.name   = source_session(1:16);
+        patient_coordinates.coords = [[ones(1,162); ico_2_source_points_coordinates_left'], ...
+            [2*ones(1,162); ico_2_source_points_coordinates_right']];
+        
+        patient_coordinates.LDL    = ico_2_source_points_labels_left;
+        patient_coordinates.RDL    = ico_2_source_points_labels_right;
+        
+        patient_coordinates.left_focus  = [source_in_left_pos source_in_left_pre];
+        patient_coordinates.right_focus = [source_in_right_pos source_in_right_pre];
+        
+        i = find(masterspread.ID==[source_session(1:9) '.5']);
+        patient_coordinates.hand   = char(masterspread.Handedness(i));
+        patient_coordinates.status = char(masterspread.Group(i));
+        patient_coordinates.gender = char(masterspread.Gender(i));
+    else
+        load([DATAPATH(1:end-9) 'masterspread.mat']);
+        load([DATAPATH '/' source_session(1:9) '_source_in_lowerhalf']);
+        load([DATAPATH '/sleep_source/' source_session]);
+        
+        patient_coordinates.name   = source_session(1:9);
+        patient_coordinates.coords = [[ones(1,162); ico_2_source_points_coordinates_left'], ...
+            [2*ones(1,162); ico_2_source_points_coordinates_right']];
+        
+        patient_coordinates.LDL    = ico_2_source_points_labels_left;
+        patient_coordinates.RDL    = ico_2_source_points_labels_right;
+        
+        patient_coordinates.left_focus  = [source_in_left_pos source_in_left_pre];
+        patient_coordinates.right_focus = [source_in_right_pos source_in_right_pre];
+        
+        i = find(masterspread.ID==source_session(1:9));
+        patient_coordinates.hand   = char(masterspread.Handedness(i));
+        patient_coordinates.status = char(masterspread.Group(i));
+        patient_coordinates.gender = char(masterspread.Gender(i));
+    end
     
-    patient_coordinates.name   = source_session(1:9);
-    patient_coordinates.coords = [[ones(1,162); ico_2_source_points_coordinates_left'], ...
-        [2*ones(1,162); ico_2_source_points_coordinates_right']];
     
-    patient_coordinates.LDL    = ico_2_source_points_labels_left;
-    patient_coordinates.RDL    = ico_2_source_points_labels_right;
-    
-    patient_coordinates.left_focus  = [source_in_left_pos source_in_left_pre];
-    patient_coordinates.right_focus = [source_in_right_pos source_in_right_pre];
-    
-    i = find(masterspread.ID==source_session(1:9));
-    patient_coordinates.hand   = char(masterspread.Handedness(i));
-    patient_coordinates.status = char(masterspread.Group(i));
-    patient_coordinates.gender = char(masterspread.Gender(i));
-
     save([DATAPATH '/patient_coordinates.mat'],'patient_coordinates')
     
 else
