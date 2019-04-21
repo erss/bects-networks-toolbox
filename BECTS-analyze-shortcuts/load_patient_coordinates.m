@@ -43,6 +43,8 @@ if exist([DATAPATH '/patient_coordinates.mat'],'file') ~=2
         
         %%% ------ REMOVE LABELS THAT ARE NOT PRECENTRAL OR POSTCENTRAL----
         xyz= patient_coordinates.coords;
+        LN = zeros(1,length(patient_coordinates.left_focus));
+        RN = zeros(1,length(patient_coordinates.right_focus));
         for i = 1:length(patient_coordinates.left_focus)
             LN(i) = find(xyz(2,:)==patient_coordinates.left_focus(i));
             
@@ -53,8 +55,8 @@ if exist([DATAPATH '/patient_coordinates.mat'],'file') ~=2
         end
 
         RN = RN-162;
-          patient_coordinates.LDL(LN)
-        patient_coordinates.RDL(RN)
+%         patient_coordinates.LDL(LN)
+%         patient_coordinates.RDL(RN)
         iPre =strcmp(  patient_coordinates.LDL(LN),'precentral');
         iPost =strcmp(  patient_coordinates.LDL(LN),'postcentral');
         iL = iPre+iPost;
@@ -72,11 +74,11 @@ if exist([DATAPATH '/patient_coordinates.mat'],'file') ~=2
         %%% ---------------------------------------------------------------
         
         
-        
-        i = find(masterspread.ID==[source_session(1:9) '.5']);
-        patient_coordinates.hand   = char(masterspread.Handedness(i));
-        patient_coordinates.status = char(masterspread.Group(i));
-        patient_coordinates.gender = char(masterspread.Gender(i));
+        i = find(strcmp(npdata.ID,[source_session(1:9) '.5']));
+        patient_coordinates.hand   = char(npdata.Handedness(i));
+        patient_coordinates.status = char(npdata.Group(i));
+        patient_coordinates.gender = char(npdata.Sex(i));
+        patient_coordinates.age = npdata.Age(i);
     else
         load([DATAPATH(1:end-9) 'npdata.mat']);
         load([DATAPATH '/' source_session(1:9) '_source_in_lowerhalf']);
@@ -93,6 +95,8 @@ if exist([DATAPATH '/patient_coordinates.mat'],'file') ~=2
         patient_coordinates.right_focus = [source_in_right_pos source_in_right_pre];
         %%% ------ REMOVE LABELS THAT ARE NOT PRECENTRAL OR POSTCENTRAL----
         xyz= patient_coordinates.coords;
+        LN = zeros(1,length(patient_coordinates.left_focus));
+        RN = zeros(1,length(patient_coordinates.right_focus));
         for i = 1:length(patient_coordinates.left_focus)
             LN(i) = find(xyz(2,:)==patient_coordinates.left_focus(i));
             
@@ -103,8 +107,8 @@ if exist([DATAPATH '/patient_coordinates.mat'],'file') ~=2
         end
 
         RN = RN-162;
-          patient_coordinates.LDL(LN)
-        patient_coordinates.RDL(RN)
+%         patient_coordinates.LDL(LN)
+%         patient_coordinates.RDL(RN)
         iPre =strcmp(  patient_coordinates.LDL(LN),'precentral');
         iPost =strcmp(  patient_coordinates.LDL(LN),'postcentral');
         iL = iPre+iPost;
@@ -120,24 +124,15 @@ if exist([DATAPATH '/patient_coordinates.mat'],'file') ~=2
         patient_coordinates.left_focus=patient_coordinates.left_focus(iL);
         patient_coordinates.right_focus=patient_coordinates.right_focus(iR);
        
-        
-%         for i = 1:length(patient_coordinates.left_focus)
-%             LN(i) = find(xyz(2,:)==patient_coordinates.left_focus(i)); 
-%         end
-%         
-%         for i = 1:length(patient_coordinates.right_focus)
-%             RN(i) = find(xyz(2,:)==patient_coordinates.right_focus(i));
-%         end
-%         RN = RN-162;
-%         patient_coordinates.LDL(LN)
-%         patient_coordinates.RDL(RN)
-
         %%% ---------------------------------------------------------------
         
-        i = find(npdata.ID==source_session(1:9));
-        patient_coordinates.hand   = char(masterspread.Handedness(i));
-        patient_coordinates.status = char(masterspread.Group(i));
-        patient_coordinates.gender = char(masterspread.Gender(i));
+        i =find(strcmp(npdata.ID,source_session(1:9)));
+        patient_coordinates.hand   = char(npdata.Handedness(i));
+        patient_coordinates.status = char(npdata.Group(i));
+        patient_coordinates.gender = char(npdata.Sex(i));
+        patient_coordinates.age = npdata.Age(i);
+
+
     end
     
     
