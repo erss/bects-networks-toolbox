@@ -27,7 +27,7 @@ function [ patient_coordinates ] = load_patient_coordinates(DATAPATH, source_ses
 %             (2) xyz are the same for each sesssion
 if exist([DATAPATH '/patient_coordinates.mat'],'file') ~=2
     if strcmp(DATAPATH(end-5:end),'visit2')
-        load([DATAPATH(1:end-16) 'masterspread.mat']);
+        load([DATAPATH(1:end-16) 'npdata.mat']);
         load([DATAPATH '/' source_session(1:16) '_source_in_lowerhalf']);
         load([DATAPATH '/sleep_source/' source_session]);
         
@@ -41,12 +41,44 @@ if exist([DATAPATH '/patient_coordinates.mat'],'file') ~=2
         patient_coordinates.left_focus  = [source_in_left_pos source_in_left_pre];
         patient_coordinates.right_focus = [source_in_right_pos source_in_right_pre];
         
+        %%% ------ REMOVE LABELS THAT ARE NOT PRECENTRAL OR POSTCENTRAL----
+        xyz= patient_coordinates.coords;
+        for i = 1:length(patient_coordinates.left_focus)
+            LN(i) = find(xyz(2,:)==patient_coordinates.left_focus(i));
+            
+        end
+        
+        for i = 1:length(patient_coordinates.right_focus)
+            RN(i) = find(xyz(2,:)==patient_coordinates.right_focus(i));
+        end
+
+        RN = RN-162;
+          patient_coordinates.LDL(LN)
+        patient_coordinates.RDL(RN)
+        iPre =strcmp(  patient_coordinates.LDL(LN),'precentral');
+        iPost =strcmp(  patient_coordinates.LDL(LN),'postcentral');
+        iL = iPre+iPost;
+        
+         iPre =strcmp(  patient_coordinates.RDL(RN),'precentral');
+        iPost =strcmp(  patient_coordinates.RDL(RN),'postcentral');
+        iR = iPre+iPost;
+        
+        iL=logical(iL);
+        iR=logical(iR);
+        patient_coordinates.left_focus_rm = patient_coordinates.left_focus(~iL);
+        patient_coordinates.right_focus_rm = patient_coordinates.right_focus(~iR);
+        patient_coordinates.left_focus=patient_coordinates.left_focus(iL);
+        patient_coordinates.right_focus=patient_coordinates.right_focus(iR);
+        %%% ---------------------------------------------------------------
+        
+        
+        
         i = find(masterspread.ID==[source_session(1:9) '.5']);
         patient_coordinates.hand   = char(masterspread.Handedness(i));
         patient_coordinates.status = char(masterspread.Group(i));
         patient_coordinates.gender = char(masterspread.Gender(i));
     else
-        load([DATAPATH(1:end-9) 'masterspread.mat']);
+        load([DATAPATH(1:end-9) 'npdata.mat']);
         load([DATAPATH '/' source_session(1:9) '_source_in_lowerhalf']);
         load([DATAPATH '/sleep_source/' source_session]);
         
@@ -59,8 +91,50 @@ if exist([DATAPATH '/patient_coordinates.mat'],'file') ~=2
         
         patient_coordinates.left_focus  = [source_in_left_pos source_in_left_pre];
         patient_coordinates.right_focus = [source_in_right_pos source_in_right_pre];
+        %%% ------ REMOVE LABELS THAT ARE NOT PRECENTRAL OR POSTCENTRAL----
+        xyz= patient_coordinates.coords;
+        for i = 1:length(patient_coordinates.left_focus)
+            LN(i) = find(xyz(2,:)==patient_coordinates.left_focus(i));
+            
+        end
         
-        i = find(masterspread.ID==source_session(1:9));
+        for i = 1:length(patient_coordinates.right_focus)
+            RN(i) = find(xyz(2,:)==patient_coordinates.right_focus(i));
+        end
+
+        RN = RN-162;
+          patient_coordinates.LDL(LN)
+        patient_coordinates.RDL(RN)
+        iPre =strcmp(  patient_coordinates.LDL(LN),'precentral');
+        iPost =strcmp(  patient_coordinates.LDL(LN),'postcentral');
+        iL = iPre+iPost;
+        
+         iPre =strcmp(  patient_coordinates.RDL(RN),'precentral');
+        iPost =strcmp(  patient_coordinates.RDL(RN),'postcentral');
+        iR = iPre+iPost;
+        
+        iL=logical(iL);
+        iR=logical(iR);
+        patient_coordinates.left_focus_rm = patient_coordinates.left_focus(~iL);
+        patient_coordinates.right_focus_rm = patient_coordinates.right_focus(~iR);
+        patient_coordinates.left_focus=patient_coordinates.left_focus(iL);
+        patient_coordinates.right_focus=patient_coordinates.right_focus(iR);
+       
+        
+%         for i = 1:length(patient_coordinates.left_focus)
+%             LN(i) = find(xyz(2,:)==patient_coordinates.left_focus(i)); 
+%         end
+%         
+%         for i = 1:length(patient_coordinates.right_focus)
+%             RN(i) = find(xyz(2,:)==patient_coordinates.right_focus(i));
+%         end
+%         RN = RN-162;
+%         patient_coordinates.LDL(LN)
+%         patient_coordinates.RDL(RN)
+
+        %%% ---------------------------------------------------------------
+        
+        i = find(npdata.ID==source_session(1:9));
         patient_coordinates.hand   = char(masterspread.Handedness(i));
         patient_coordinates.status = char(masterspread.Group(i));
         patient_coordinates.gender = char(masterspread.Gender(i));

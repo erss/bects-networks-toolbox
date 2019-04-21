@@ -8,6 +8,7 @@ xyz= patient_coordinates.coords;
 % xyz(2,:)= xyz(2,:)-ones(size(xyz(2,:)));
 for i = 1:length(patient_coordinates.left_focus)
     LN(i) = find(xyz(2,:)==patient_coordinates.left_focus(i));
+    
 end
 
 for i = 1:length(patient_coordinates.right_focus)
