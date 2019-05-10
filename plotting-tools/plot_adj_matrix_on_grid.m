@@ -37,16 +37,16 @@ for j = 1:size(A,3)
     
     G = graph(Aleft(:,:,j),'OmitSelfLoops');
     p = plot(G,'XData',xyz(1,LN),'YData',xyz(2,LN),...
-        'ZData',xyz(3,LN),'MarkerSize',10,'NodeColor','r','LineWidth',2,...
+        'ZData',xyz(3,LN),'MarkerSize',10,'NodeColor','r','LineWidth',4,...
         'EdgeColor','k');
     p.NodeLabel = {};
     
-    G = graph(Aright(:,:,j),'OmitSelfLoops');
-    p = plot(G,'XData',xyz(1,RN),'YData',xyz(2,RN),...
-        'ZData',xyz(3,RN),'MarkerSize',10,'NodeColor','g','LineWidth',2, ...
-         'EdgeColor','k');
-    p.NodeLabel = {};
-    
+%     G = graph(Aright(:,:,j),'OmitSelfLoops');
+%     p = plot(G,'XData',xyz(1,RN),'YData',xyz(2,RN),...
+%         'ZData',xyz(3,RN),'MarkerSize',10,'NodeColor','g','LineWidth',2, ...
+%          'EdgeColor','k');
+%     p.NodeLabel = {};
+%     
     hold off
  %   view(90.1,90)
     view(-107,14)

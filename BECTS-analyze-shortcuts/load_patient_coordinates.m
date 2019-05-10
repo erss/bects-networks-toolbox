@@ -30,13 +30,16 @@ if exist([DATAPATH '/patient_coordinates.mat'],'file') ~=2
         load([DATAPATH(1:end-16) 'npdata.mat']);
         load([DATAPATH '/' source_session(1:16) '_source_in_lowerhalf']);
         load([DATAPATH '/sleep_source/' source_session]);
+        load(['~/Desktop/bects_data/ESI-Liz_Desikan-labels/' source_session(1:16) '_sourcespace_desikan_labels']);
+
         
         patient_coordinates.name   = source_session(1:16);
-        patient_coordinates.coords = [[ones(1,162); ico_2_source_points_coordinates_left'], ...
-            [2*ones(1,162); ico_2_source_points_coordinates_right']];
-        
-        patient_coordinates.LDL    = ico_2_source_points_labels_left;
-        patient_coordinates.RDL    = ico_2_source_points_labels_right;
+              patient_coordinates.coords = [[ones(1,162); left_desikan_vertexIco2'; ...
+            ico_2_source_points_coordinates_left(:,2:4)'], ...
+            [2*ones(1,162); right_desikan_vertexIco2'; ...
+            ico_2_source_points_coordinates_right(:,2:4)']];
+        patient_coordinates.LDL    = left_desikan_label;
+        patient_coordinates.RDL    = right_desikan_label;
         
         patient_coordinates.left_focus  = [source_in_left_pos source_in_left_pre];
         patient_coordinates.right_focus = [source_in_right_pos source_in_right_pre];
@@ -83,13 +86,16 @@ if exist([DATAPATH '/patient_coordinates.mat'],'file') ~=2
         load([DATAPATH(1:end-9) 'npdata.mat']);
         load([DATAPATH '/' source_session(1:9) '_source_in_lowerhalf']);
         load([DATAPATH '/sleep_source/' source_session]);
+        load(['~/Desktop/bects_data/ESI-Liz_Desikan-labels/' source_session(1:9) '_sourcespace_desikan_labels']);
         
         patient_coordinates.name   = source_session(1:9);
-        patient_coordinates.coords = [[ones(1,162); ico_2_source_points_coordinates_left'], ...
-            [2*ones(1,162); ico_2_source_points_coordinates_right']];
+        patient_coordinates.coords = [[ones(1,162); left_desikan_vertexIco2'; ...
+            ico_2_source_points_coordinates_left(:,2:4)'], ...
+            [2*ones(1,162); right_desikan_vertexIco2'; ...
+            ico_2_source_points_coordinates_right(:,2:4)']];
         
-        patient_coordinates.LDL    = ico_2_source_points_labels_left;
-        patient_coordinates.RDL    = ico_2_source_points_labels_right;
+        patient_coordinates.LDL    = left_desikan_label;
+        patient_coordinates.RDL    = right_desikan_label;
         
         patient_coordinates.left_focus  = [source_in_left_pos source_in_left_pre];
         patient_coordinates.right_focus = [source_in_right_pos source_in_right_pre];
