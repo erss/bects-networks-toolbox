@@ -18,17 +18,31 @@ aBECTS        = nan(1,length(patient_names));   % 1 = active; 0 = healthy or rem
 rightHand     = nan(1,length(patient_names));   % 0 = L; 1 = R;
 age           = nan(1,length(patient_names));   % age;
 taskPeg       = nan(1,length(patient_names));   % performance on Pegboard
+taskPegZ       = nan(1,length(patient_names));   % performance on Pegboard
+taskPeg_nondom       = nan(1,length(patient_names));   % performance on Pegboard
+taskPegZ_nondom       = nan(1,length(patient_names));   % performance on Pegboard
 taskPho       = nan(1,length(patient_names));   % performance of phonemic awareness task
-cohPrePost    = nan(1,length(patient_names));   % coherence between pre post CG
-cohPrePost_all= nan(1,length(patient_names));   % coherence between and in pre post CG
 cohLeft        = nan(1,length(patient_names));   % coherence in SOZ mean of L and R
 cohRight        = nan(1,length(patient_names));   % coherence in SOZ mean of L and R
 
 cohSOZ        = nan(1,length(patient_names));   % coherence in SOZ mean of L and R
 cohLang       = nan(1,length(patient_names));   % coherence from left SOZ to left STL
 cohAcross     = nan(1,length(patient_names));   % coherence from left SOZ to right SOZ
-cohLcontrol   = nan(1,length(patient_names));   % coherence in control region left side
-cohRcontrol   = nan(1,length(patient_names));   % coherence in control region right side
+
+cohPrePost    = nan(1,length(patient_names));   % coherence between pre post CG
+cohPrePost_upper= nan(1,length(patient_names));   % coherence between and in pre post CG
+cohPrePost_all    = nan(1,length(patient_names));   % coherence between pre post CG
+cohPrePost_all_upper= nan(1,length(patient_names));   % coherence between and in pre post CG
+
+cohPrePost_nondom    = nan(1,length(patient_names));   % coherence between pre post CG
+cohPrePost_upper_nondom= nan(1,length(patient_names));   % coherence between and in pre post CG
+cohPrePost_all_nondom    = nan(1,length(patient_names));   % coherence between pre post CG
+cohPrePost_all_upper_nondom= nan(1,length(patient_names));   % coherence between and in pre post CG
+
+
+
+
+
 affected_hem  = nan(1,length(patient_names));   % 0 = L; 1 = R; 2 = both; 3 = neither
 
 affectedAndDom = nan(1,length(patient_names));  % 1 = if the affected hem is the dominant one
@@ -52,19 +66,38 @@ for i = 1:length(patient_names) % [3 6 7 9 10 11];
     rightHand(i)   = strcmp(T.hand(chunk(1)),'right');
     
     age(i)         = T.age(chunk(1));
-    taskPeg(i)     = T.GPBdomZ(chunk(1));
+    taskPeg(i)     = T.GPBdomRaw(chunk(1));
+    taskPegZ(i)     = T.GPBdomZ(chunk(1));
+        taskPeg_nondom(i)     = T.GPBnonRaw(chunk(1));
+    taskPegZ_nondom(i)     = T.GPBnonZ(chunk(1));
 
-    taskPho(i)     = T.PhonoAwareRaw(chunk(1));
-    cohPrePost(i)  = nanmean(T.prepostSOZ(chunk));
-    cohPrePost_all(i)= nanmean(T.prepostSOZ_all(chunk));
+    taskPhoRaw(i)     = T.PhonoAwareRaw(chunk(1));
+    taskPhoZ(i)     = T.PhonoAwareZ(chunk(1));
+    
+
     cohLeft(i)     = nanmean(T.leftSOZ(chunk));
     cohRight(i)    = nanmean(T.rightSOZ(chunk));
     cohSOZ(i)      = nanmean([nanmean(T.leftSOZ(chunk)),nanmean(T.rightSOZ(chunk))]);
     cohLang(i)     = nanmean(T.L_STL_SOZ(chunk));
     cohAcross(i)   = nanmean(T.acrossSOZ(chunk));
-    cohLcontrol(i)   = nanmean(T.left_sup_front(chunk));
-    cohRcontrol(i)   = nanmean(T.right_sup_front(chunk));
 
+        cohPrePost(i)  = nanmean(T.prepostSOZ(chunk));
+    cohPrePost_all(i)= nanmean(T.prepostSOZ_all(chunk));
+
+    
+    cohPrePost(i)    = nanmean(T.prepostSOZ(chunk));
+cohPrePost_upper(i)= nanmean(T.prepostSOZ_upper(chunk));
+cohPrePost_all(i)   = nanmean(T.prepostSOZ_all(chunk));
+cohPrePost_all_upper(i)=nanmean(T.prepostSOZ_all_upper(chunk)); 
+
+cohPrePost_nondom(i)   = nanmean(T.prepostSOZ_nondom(chunk)); 
+cohPrePost_upper_nondom(i)= nanmean(T.prepostSOZ_upper_nondom(chunk));   
+cohPrePost_all_nondom(i)   = nanmean(T.prepostSOZ_all_nondom(chunk));   
+cohPrePost_all_upper_nondom(i)= nanmean(T.prepostSOZ_all_upper_nondom(chunk));  
+
+    
+    
+    
     
     if strcmp(T.SpikingHemisphere(chunk(1)),'left') && ~hc(i)
         affected_hem(i) = 0;
@@ -124,72 +157,48 @@ col = [ 0.4940 0.1840 0.5560;
 
 % Define control regions
 
-motorControl = cohLcontrol;
-motorControl(3) = cohRcontrol(3); 
-
-langControl = cohLcontrol;
 %% 1) Plot MOTOR STUFF
 
 
 %% covars are same for all fits
-covars.rightHand = rightHand;
-covars.hc = hc;
-covars.aBECTS = aBECTS;
-covars.rBECTS = rBECTS;
-labels.plabels = plabels;
+covars.rightHand = [ones(size(rightHand)),zeros(size(rightHand))];
+%[rightHand,rightHand];
+covars.hc = [hc,hc];
+covars.aBECTS = [aBECTS,aBECTS];
+covars.rBECTS = [rBECTS,rBECTS];
+labels.plabels = [plabels;plabels];
+% covars.rightHand = [rightHand];
+% covars.hc = [hc];
+% covars.aBECTS = [aBECTS];
+% covars.rBECTS = [rBECTS];
+% labels.plabels = [plabels];
 
-
-vars.x_obs = cohPrePost;
-vars.y_obs = taskPeg;
-labels.xtitle = 'Pre to Post Central Gyrus';
-labels.ytitle = 'Pegboard task (s)';
-labels.figtitle = 'Motor Task Performance vs Sigma Coherence';
-plot_fit_glm(vars,covars,labels);
-
-vars.x_obs = cohPrePost./motorControl;
-labels.xtitle = 'Pre to Post Central Gyrus (normalized)';
-plot_fit_glm(vars,covars,labels);
-
-%%
-vars.x_obs = cohPrePost_all;
-labels.xtitle = 'Pre to Post Central Gyrus and Between';
-plot_fit_glm(vars,covars,labels);
-
-vars.x_obs = cohPrePost_all./motorControl;
-labels.xtitle = 'Pre to Post Central Gyrus and Between (normalized)';
+vars.x_obs = [cohPrePost,cohPrePost_nondom];
+vars.y_obs = [taskPeg,taskPeg_nondom];
+labels.xtitle = 'Sigma Coherence in Pre to Post Central Gyrus';
+labels.ytitle = 'Grooved Pegboard Performance (s)';
+labels.figtitle = 'Motor Task Performance vs Coherence in Motor Network';
 plot_fit_glm(vars,covars,labels);
 
 
-%%% left control region except patient 4 should be right control region
-x_obs = cohLcontrol;
-x_obs(3) = cohRcontrol(3); % i 3 is patient 4
-vars.x_obs = x_obs;
-labels.xtitle = 'Control region';
-labels.figtitle = 'Motor Performance vs control region';
-plot_fit_glm(vars,covars,labels);
 
 %% 2) Plot Phoneme Task Performance vs sigma coherence in Left SOZ to STL -- RIGHT HAND ONLY
 %%% all are righthanded except for patient 4, SO want observation to be all
 
-%%% all are left hemisphere
-x_obs = cohLcontrol;
-vars.x_obs = x_obs;
-vars.y_obs = taskPho;
-labels.xtitle = 'Control region';
-labels.ytitle = 'Phonemic Awareness Score';
-
-labels.figtitle = 'Lang Performance vs control region';
-plot_fit_glm(vars,covars,labels);
-
-
-vars.x_obs = cohLang;
-labels.xtitle = 'left STL to left SOZ';
+covars.rightHand = [rightHand];
+covars.hc = [hc];
+covars.aBECTS = [aBECTS];
+covars.rBECTS = [rBECTS];
+labels.plabels = [plabels];
+cohLangTemp = cohLang;
+cohLangTemp(hc) = NaN;
+taskPhoTemp = taskPho;
+taskPhoTemp(hc)=NaN;
+vars.x_obs = cohLangTemp;
+vars.y_obs = taskPhoTemp;
+labels.ytitle = 'Phonemic Awareness Score (Raw)';
+labels.xtitle = 'left SOZ to left STL';
 labels.figtitle = 'Lang Performance vs Sigma Coherence';
-plot_fit_glm(vars,covars,labels);
-
-vars.x_obs = cohLang./langControl;
-labels.xtitle = 'left STL to left SOZ';
-labels.figtitle = 'Lang Performance vs Sigma Coherence (normalized)';
 plot_fit_glm(vars,covars,labels);
 
 %% 3) 
@@ -230,6 +239,9 @@ ylabel('Sigma Coherence between SOZs')
 axis square
 [t,p]=ttest2(cohSOZ(aBECTS),cohSOZ(hc))
 [t,p]=ttest2(cohAcross(aBECTS),cohAcross(hc))
+[t,p]=ttest2(cohAcross(rBECTS),cohAcross(hc))
+
+[t,p]=ttest2(cohAcross(rBECTS),cohAcross(aBECTS))
 
 set(gca,'FontSize',18)
 %%
@@ -249,11 +261,41 @@ plot(age(~males & hc),cohSOZ(~males & hc),'*','MarkerEdgeColor',col(1,:),'Marker
 plot(age(~males & aBECTS),cohSOZ(~males & aBECTS),'*','MarkerEdgeColor',col(2,:),'MarkerSize',8,'MarkerFaceColor',col(2,:));
 plot(age(~males & rBECTS),cohSOZ(~males & rBECTS),'*','MarkerEdgeColor',col(3,:),'MarkerSize',8,'MarkerFaceColor',col(3,:));
 
-%legend('Healthy M', 'Active M', 'Remission M','Healthy F','Active F','Remission F')
-legend('Healthy M','Active M', 'Remission M','Healthy F','Active F','Remission F')
+legend('Healthy M', 'Active M', 'Remission M','Healthy F','Active F','Remission F')
+%legend('Healthy M','Active M', 'Remission M','Healthy F','Active F','Remission F')
 
 xlabel('Age')
 ylabel('Sigma Coherence in SOZ')
+set(gca,'FontSize',18)
+
+
+figure; hold on;
+plot(age(males & hc),cohPrePost(males & hc),'s','MarkerEdgeColor',col(1,:),'MarkerSize',8,'MarkerFaceColor',col(1,:));
+plot(age(males & aBECTS),cohPrePost(males & aBECTS),'s','MarkerEdgeColor',col(2,:),'MarkerSize',8,'MarkerFaceColor',col(2,:));
+plot(age(males & rBECTS),cohPrePost(males & rBECTS),'s','MarkerEdgeColor',col(3,:),'MarkerSize',8,'MarkerFaceColor',col(3,:));
+plot(age(~males & hc),cohPrePost(~males & hc),'*','MarkerEdgeColor',col(1,:),'MarkerSize',8,'MarkerFaceColor',col(1,:));
+plot(age(~males & aBECTS),cohPrePost(~males & aBECTS),'*','MarkerEdgeColor',col(2,:),'MarkerSize',8,'MarkerFaceColor',col(2,:));
+plot(age(~males & rBECTS),cohPrePost(~males & rBECTS),'*','MarkerEdgeColor',col(3,:),'MarkerSize',8,'MarkerFaceColor',col(3,:));
+
+legend('Healthy M', 'Active M', 'Remission M','Healthy F','Active F','Remission F')
+%legend('Healthy M','Active M', 'Remission M','Healthy F','Active F','Remission F')
+
+xlabel('Age')
+ylabel('Sigma Coherence in Pre to Post CG')
+set(gca,'FontSize',18)
+figure; hold on;
+plot(age(males & hc),cohLang(males & hc),'s','MarkerEdgeColor',col(1,:),'MarkerSize',8,'MarkerFaceColor',col(1,:));
+plot(age(males & aBECTS),cohLang(males & aBECTS),'s','MarkerEdgeColor',col(2,:),'MarkerSize',8,'MarkerFaceColor',col(2,:));
+plot(age(males & rBECTS),cohLang(males & rBECTS),'s','MarkerEdgeColor',col(3,:),'MarkerSize',8,'MarkerFaceColor',col(3,:));
+plot(age(~males & hc),cohLang(~males & hc),'*','MarkerEdgeColor',col(1,:),'MarkerSize',8,'MarkerFaceColor',col(1,:));
+plot(age(~males & aBECTS),cohLang(~males & aBECTS),'*','MarkerEdgeColor',col(2,:),'MarkerSize',8,'MarkerFaceColor',col(2,:));
+plot(age(~males & rBECTS),cohLang(~males & rBECTS),'*','MarkerEdgeColor',col(3,:),'MarkerSize',8,'MarkerFaceColor',col(3,:));
+
+legend('Healthy M', 'Active M', 'Remission M','Healthy F','Active F','Remission F')
+%legend('Healthy M','Active M', 'Remission M','Healthy F','Active F','Remission F')
+
+xlabel('Age')
+ylabel('Sigma Coherence in Lang Network')
 set(gca,'FontSize',18)
 
 % %%
@@ -288,39 +330,20 @@ set(gca,'FontSize',18)
 
 %%
 figure;
-subplot 131
+subplot 121
 barplot({'Healthy','Active','Remission'},cohPrePost(hc),cohPrePost(aBECTS),cohPrePost(rBECTS))
 ylabel('Between Pre Post')
 axis square
 
 
-subplot 132
+subplot 122
 barplot({'Healthy','Active','Remission'},cohPrePost(hc),cohPrePost_all(aBECTS),cohPrePost_all(rBECTS))
 ylabel('Between and within Pre Post')
 axis square
 
 
-subplot 133
-x_obs = cohLcontrol;
-x_obs(3) = cohRcontrol(3); % i 3 is patient 4
-barplot({'Healthy','Active','Remission'},x_obs(hc),x_obs(aBECTS),x_obs(rBECTS))
-ylabel('Control')
-axis square
-suptitle('Sigma Coherence')
 
-%%
-figure;
-subplot 121
-barplot({'Healthy','Active','Remission'},cohLang(hc),cohLang(aBECTS),cohLang(rBECTS))
-ylabel('Left SOZ to Left STL')
-axis square
 
-subplot 122
-x_obs = cohLcontrol;
-barplot({'Healthy','Active','Remission'},cohLang(hc),x_obs(aBECTS),x_obs(rBECTS))
-ylabel('Control')
-axis square
-suptitle('Sigma Coherence')
 
 %%
 figure;
@@ -404,5 +427,33 @@ set(gca,'FontSize',18)
 %%
 
 
+figure; hold on;
+plot(age(males & hc),taskPeg(males & hc),'s','MarkerEdgeColor',col(1,:),'MarkerSize',8,'MarkerFaceColor',col(1,:));
+plot(age(males & aBECTS),taskPeg(males & aBECTS),'s','MarkerEdgeColor',col(2,:),'MarkerSize',8,'MarkerFaceColor',col(2,:));
+plot(age(males & rBECTS),taskPeg(males & rBECTS),'s','MarkerEdgeColor',col(3,:),'MarkerSize',8,'MarkerFaceColor',col(3,:));
+plot(age(~males & hc),taskPeg(~males & hc),'*','MarkerEdgeColor',col(1,:),'MarkerSize',8,'MarkerFaceColor',col(1,:));
+plot(age(~males & aBECTS),taskPeg(~males & aBECTS),'*','MarkerEdgeColor',col(2,:),'MarkerSize',8,'MarkerFaceColor',col(2,:));
+plot(age(~males & rBECTS),taskPeg(~males & rBECTS),'*','MarkerEdgeColor',col(3,:),'MarkerSize',8,'MarkerFaceColor',col(3,:));
 
+legend('Healthy M', 'Active M', 'Remission M','Healthy F','Active F','Remission F')
+%legend('Healthy M','Active M', 'Remission M','Healthy F','Active F','Remission F')
+
+xlabel('Age')
+ylabel('Pegboard performance (s)')
+set(gca,'FontSize',18)
+
+figure; hold on;
+plot(age(males & hc),taskPho(males & hc),'s','MarkerEdgeColor',col(1,:),'MarkerSize',8,'MarkerFaceColor',col(1,:));
+plot(age(males & aBECTS),taskPho(males & aBECTS),'s','MarkerEdgeColor',col(2,:),'MarkerSize',8,'MarkerFaceColor',col(2,:));
+plot(age(males & rBECTS),taskPho(males & rBECTS),'s','MarkerEdgeColor',col(3,:),'MarkerSize',8,'MarkerFaceColor',col(3,:));
+plot(age(~males & hc),taskPho(~males & hc),'*','MarkerEdgeColor',col(1,:),'MarkerSize',8,'MarkerFaceColor',col(1,:));
+plot(age(~males & aBECTS),taskPho(~males & aBECTS),'*','MarkerEdgeColor',col(2,:),'MarkerSize',8,'MarkerFaceColor',col(2,:));
+plot(age(~males & rBECTS),taskPho(~males & rBECTS),'*','MarkerEdgeColor',col(3,:),'MarkerSize',8,'MarkerFaceColor',col(3,:));
+
+legend('Healthy M', 'Active M', 'Remission M','Healthy F','Active F','Remission F')
+%legend('Healthy M','Active M', 'Remission M','Healthy F','Active F','Remission F')
+
+xlabel('Age')
+ylabel('Phonemeic Awareness Score')
+set(gca,'FontSize',18)
 
