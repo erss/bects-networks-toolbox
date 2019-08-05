@@ -1,12 +1,11 @@
 %load('T_sigma.mat')
 %npdata = readtable('BECTS_np_database.xlsx');
 T=T_sigma;
+T.Properties.VariableNames{2}='patient_name';
 T.patient_name=categorical(cellstr(T.patient_name));
 %% Initialize everything
 patient_names = unique(T.patient_name);  % Unique list of patient names
-% patient_names = {'pBECTS003','pBECTS006','pBECTS007','pBECTS013','pBECTS019',...
-% 'pBECTS020'};
-% 
+ patient_names = {'pBECTS011','pBECTS047'};
 % patient_names ={'pBECTS001', 'pBECTS003', 'pBECTS004','pBECTS006','pBECTS007','pBECTS019',...
 %     'pBECTS020', 'pBECTS025', 'pBECTS027','pBECTS030',...
 %      'pBECTS031','pBECTS040','pBECTS042',...
@@ -127,13 +126,14 @@ cohPrePost_all_upper_nondom(i)= nanmean(T.prepostSOZ_all_upper_nondom(chunk));
         
         affectedAndDom(i) = 1;
        
-    elseif strcmp(T.SpikingHemisphere(chunk(1)),'neither') && ~hc(i)
+    elseif strcmp(T.SpikingHemisphere(chunk(1)),'neither') &&~hc(i)
         affected_hem(i)=3;
         nonspiking =[nonspiking,nanmean(T.rightSOZ(chunk)), nanmean(T.leftSOZ(chunk))];
         
         affectedAndDom(i) = 0;
     elseif hc(i)
         hcsoz=[hcsoz,nanmean(T.rightSOZ(chunk)), nanmean(T.leftSOZ(chunk))];
+        affectedAndDom(i)=0;
     end
     
     
@@ -148,7 +148,7 @@ aBECTS    = logical(aBECTS);
 rBECTS    = logical(rBECTS);
 
 temp = char(patient_names);
-temp = temp(:,end-1:end);
+temp = temp(:,8:end);
 plabels = unique(cellstr(temp));
 
 col = [ 0.4940 0.1840 0.5560;
@@ -161,20 +161,20 @@ col = [ 0.4940 0.1840 0.5560;
 
 
 %% covars are same for all fits
-covars.rightHand = [ones(size(rightHand)),zeros(size(rightHand))];
+covars.rightHand = [ones(size(rightHand)),zeros(size(rightHand))]
 %[rightHand,rightHand];
 covars.hc = [hc,hc];
 covars.aBECTS = [aBECTS,aBECTS];
 covars.rBECTS = [rBECTS,rBECTS];
-labels.plabels = [plabels;plabels];
+labels.plabels = [temp;temp];
 % covars.rightHand = [rightHand];
 % covars.hc = [hc];
 % covars.aBECTS = [aBECTS];
 % covars.rBECTS = [rBECTS];
-% labels.plabels = [plabels];
+% labels.plabels = [temp];
 
-vars.x_obs = [cohPrePost,cohPrePost_nondom];
-vars.y_obs = [taskPeg,taskPeg_nondom];
+vars.x_obs = [log(cohPrePost),log(cohPrePost_nondom)];
+vars.y_obs = [log(taskPeg),log(taskPeg_nondom)];
 labels.xtitle = 'Sigma Coherence in Pre to Post Central Gyrus';
 labels.ytitle = 'Grooved Pegboard Performance (s)';
 labels.figtitle = 'Motor Task Performance vs Coherence in Motor Network';
@@ -189,14 +189,15 @@ covars.rightHand = [rightHand];
 covars.hc = [hc];
 covars.aBECTS = [aBECTS];
 covars.rBECTS = [rBECTS];
-labels.plabels = [plabels];
+labels.plabels = [temp];
 cohLangTemp = cohLang;
-cohLangTemp(hc) = NaN;
-taskPhoTemp = taskPho;
+cohLangTemp(hc)=NaN;
+taskPhoTemp = taskPhoRaw;
 taskPhoTemp(hc)=NaN;
+
 vars.x_obs = cohLangTemp;
 vars.y_obs = taskPhoTemp;
-labels.ytitle = 'Phonemic Awareness Score (Raw)';
+labels.ytitle = 'Phonemic Awareness Score (raw)';
 labels.xtitle = 'left SOZ to left STL';
 labels.figtitle = 'Lang Performance vs Sigma Coherence';
 plot_fit_glm(vars,covars,labels);
@@ -206,7 +207,7 @@ plot_fit_glm(vars,covars,labels);
 figure; 
 subplot 121
 barplot({'Active','Remission','Healthy'},cohPrePost(aBECTS),cohPrePost(rBECTS),cohPrePost(hc))
-ylabel('Beta Coherence in Motor Network')
+ylabel('Sigma Coherence in Motor Network')
 axis square
 set(gca,'FontSize',18)
 subplot 122
@@ -218,18 +219,19 @@ set(gca,'FontSize',18)
 figure;
 subplot 121
 barplot({'Active','Remission','Healthy'},cohLang(aBECTS),cohLang(rBECTS),cohLang(hc))
-ylabel('Beta Coherence in Language Network')
+ylabel('Sigma Coherence in Language Network')
 axis square
 set(gca,'FontSize',18)
 subplot 122
-barplot({'Active','Remission','Healthy'},taskPho(aBECTS),taskPho(rBECTS),taskPho(hc))
+barplot({'Active','Remission','Healthy'},taskPhoRaw(aBECTS),taskPhoRaw(rBECTS),taskPhoRaw(hc))
 ylabel('Phonological Awareness Score')
 axis square
 set(gca,'FontSize',18)
 %%
 figure;
 subplot 121
-barplot({'Active','Remission','Healthy'},cohSOZ(aBECTS),cohSOZ(rBECTS),cohSOZ(hc))
+barplot({'Active','Remission','Healthy'},[cohLeft(aBECTS),cohRight(aBECTS)],...
+    [cohLeft(rBECTS),cohRight(rBECTS)],[cohLeft(hc),cohRight(hc)]);
 ylabel('Sigma Coherence in SOZ')
 axis square
 set(gca,'FontSize',18)
@@ -248,6 +250,14 @@ set(gca,'FontSize',18)
 figure;
 barplot({'Active - Spiking','Active - Not Spiking','Healthy'},...
     spiking,nonspiking,hcsoz );
+ylabel('Sigma Coherence in SOZ')
+axis square
+set(gca,'FontSize',18)
+
+
+figure;
+barplot({'Active','Healthy'},...
+    [spiking,nonspiking],hcsoz );
 ylabel('Sigma Coherence in SOZ')
 axis square
 set(gca,'FontSize',18)
@@ -443,17 +453,17 @@ ylabel('Pegboard performance (s)')
 set(gca,'FontSize',18)
 
 figure; hold on;
-plot(age(males & hc),taskPho(males & hc),'s','MarkerEdgeColor',col(1,:),'MarkerSize',8,'MarkerFaceColor',col(1,:));
-plot(age(males & aBECTS),taskPho(males & aBECTS),'s','MarkerEdgeColor',col(2,:),'MarkerSize',8,'MarkerFaceColor',col(2,:));
-plot(age(males & rBECTS),taskPho(males & rBECTS),'s','MarkerEdgeColor',col(3,:),'MarkerSize',8,'MarkerFaceColor',col(3,:));
-plot(age(~males & hc),taskPho(~males & hc),'*','MarkerEdgeColor',col(1,:),'MarkerSize',8,'MarkerFaceColor',col(1,:));
-plot(age(~males & aBECTS),taskPho(~males & aBECTS),'*','MarkerEdgeColor',col(2,:),'MarkerSize',8,'MarkerFaceColor',col(2,:));
-plot(age(~males & rBECTS),taskPho(~males & rBECTS),'*','MarkerEdgeColor',col(3,:),'MarkerSize',8,'MarkerFaceColor',col(3,:));
+plot(age(males & hc),taskPhoRaw(males & hc),'s','MarkerEdgeColor',col(1,:),'MarkerSize',8,'MarkerFaceColor',col(1,:));
+plot(age(males & aBECTS),taskPhoRaw(males & aBECTS),'s','MarkerEdgeColor',col(2,:),'MarkerSize',8,'MarkerFaceColor',col(2,:));
+plot(age(males & rBECTS),taskPhoRaw(males & rBECTS),'s','MarkerEdgeColor',col(3,:),'MarkerSize',8,'MarkerFaceColor',col(3,:));
+plot(age(~males & hc),taskPhoRaw(~males & hc),'*','MarkerEdgeColor',col(1,:),'MarkerSize',8,'MarkerFaceColor',col(1,:));
+plot(age(~males & aBECTS),taskPhoRaw(~males & aBECTS),'*','MarkerEdgeColor',col(2,:),'MarkerSize',8,'MarkerFaceColor',col(2,:));
+plot(age(~males & rBECTS),taskPhoRaw(~males & rBECTS),'*','MarkerEdgeColor',col(3,:),'MarkerSize',8,'MarkerFaceColor',col(3,:));
 
 legend('Healthy M', 'Active M', 'Remission M','Healthy F','Active F','Remission F')
 %legend('Healthy M','Active M', 'Remission M','Healthy F','Active F','Remission F')
 
 xlabel('Age')
-ylabel('Phonemeic Awareness Score')
+ylabel('Phonemeic Awareness Score (Raw)')
 set(gca,'FontSize',18)
 

@@ -27,10 +27,10 @@ nodes.target = RN;
 figure; hold on;
 
 % Plot densities over time
-plot(taxis,dSpiking,'r','LineWidth',1.5);
-plot(taxis,dNonSpiking,'g','LineWidth',1.5)
-plot(taxis,dAcross,'c','LineWidth',1.5)
-plot(taxis,dGlobal,'k','LineWidth',1.5)
+plot(taxis,dSpiking,'r','LineWidth',2);
+plot(taxis,dNonSpiking,'g','LineWidth',2)
+plot(taxis,dAcross,'c','LineWidth',2)
+plot(taxis,dGlobal,'k','LineWidth',2)
 
 xlabel('Time (s)','FontSize',20)
 ylabel('Mean Coherence','FontSize',20)

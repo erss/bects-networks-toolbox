@@ -1,4 +1,4 @@
-function [ patient_coordinates ] = load_patient_coordinates(DATAPATH, source_session )
+function [ patient_coordinates ] = load_patient_coordinates(DATAPATH,SAVEPATH, source_session )
 % Creates patient_coordinates structure.  If doesn't exist already, creates
 % using all files, if already exists in folder, loads information
 %
@@ -25,7 +25,7 @@ function [ patient_coordinates ] = load_patient_coordinates(DATAPATH, source_ses
 %
 %  Questions: (1) do I include hand, spiking hemisphere, status ...?
 %             (2) xyz are the same for each sesssion
-if exist([DATAPATH '/patient_coordinates.mat'],'file') ~=2
+if exist([SAVEPATH '/patient_coordinates.mat'],'file') ~=2
     if strcmp(DATAPATH(end-5:end),'visit2')
         load([DATAPATH(1:end-16) 'npdata.mat']);
         load([DATAPATH '/' source_session(1:16) '_source_in_lowerhalf']);
@@ -153,10 +153,10 @@ if exist([DATAPATH '/patient_coordinates.mat'],'file') ~=2
     end
     
     
-    save([DATAPATH '/patient_coordinates.mat'],'patient_coordinates')
+    save([SAVEPATH '/patient_coordinates.mat'],'patient_coordinates')
     
 else
-    load([DATAPATH '/patient_coordinates']);
+    load([SAVEPATH '/patient_coordinates']);
 end
 
 end
